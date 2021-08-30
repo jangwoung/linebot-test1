@@ -62,8 +62,7 @@ def response_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="Please enter what you want to do Today!"))
-        a = event.message.text
-        make_todo(a)
+        make_todo(event.message.text)
 
     elif event.message.text == "I want check Today's todo list":
         line_bot_api.reply_message(
