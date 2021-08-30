@@ -66,20 +66,13 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text='Hello')
+            messages
         )
     else:
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=event.message.text)
         )
-
-
-def handle_image_message(event):
-    messages = make_button_template()
-    line_bot_api.reply_message(
-        event.reply_token,
-        messages
-    )
 
 
 if __name__ == "__main__":
