@@ -88,14 +88,6 @@ def response_message(event):
             TextSendMessage(text=message))
 
 
-@handler.add(PostbackEvent)
-def handle_postback(event):
-    if event.postback.data == 'male':
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="hi"))
-
-
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
