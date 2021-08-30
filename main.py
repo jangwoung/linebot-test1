@@ -10,7 +10,8 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, QuickReplyButton, MessageAction, QuickReply, TextSendMessage, ImageSendMessage, VideoSendMessage, StickerSendMessage, AudioSendMessage, FollowEvent, FlexSendMessage)
+    MessageEvent, TextMessage, QuickReplyButton, MessageAction, QuickReply, TextSendMessage, ImageSendMessage, VideoSendMessage, StickerSendMessage, AudioSendMessage, FollowEvent, FlexSendMessageTemplateSendMessage, PostbackAction, ButtonsTemplate)
+
 
 app = Flask(__name__)
 num = 0
@@ -41,22 +42,36 @@ def callback():
 def response_message(event):
 
     if event.message.text == "Todo":
-        with open('./select_message.json') as f:
-            select_message = json.load(f)
-        line_bot_api.reply_message(
-            event.reply_token,
-            FlexSendMessage(alt_text='最初はぐー', contents=select_message)
+        buttons_template_message = TemplateSendMessage(
+            alt_text='お薬飲んだ？',
+            template=ButtonsTemplate(
+                title=today,
+                text='お薬飲んだ？',
+                actions=[
+                    PostbackAction(
+                        label='飲んだよ',
+                        display_text='飲んだよ',
+                        data=f"date={today}&status=ok"
+                    ),
+                    PostbackAction(
+                        label='後で飲むよ',
+                        display_text='後で飲むよ',
+                        data=f"date={today}&status=ng"
+                    )
+                ]
+            )
         )
 
     elif event.message.text == "Go":
-        buttons_template = ButtonsTemplate(
-            title='友達追加ありがとう！', text='まず、あなたの性別を教えてください!', actions=[
-                PostbackAction(label='男', data='male'),
-                PostbackAction(label='女', data='female'),
-            ])
-        template_message = TemplateSendMessage(
-            alt_text='友達追加ありがとう！\nまず、あなたの性別を教えてください。', template=buttons_template)
-        line_bot_api.reply_message(event.reply_token, template_message)
+        language_list = ["make", "check", "finish"]
+
+        items = [QuickReplyButton(action=MessageAction(
+            label=f"{language}", text=f"I want {language} Today's todo list")) for language in language_list]
+
+        messages = TextSendMessage(text="What do you want to do?",
+                                   quick_reply=QuickReply(items=items))
+
+        line_bot_api.reply_message(event.reply_token, messages=messages)
 
     elif event.message.text == "I want make Today's todo list":
 
@@ -64,7 +79,6 @@ def response_message(event):
             event.reply_token,
             TextSendMessage(text="Please enter what you want to do Today!"))
         a = event.message.text
-        make_todo(a)
 
     elif event.message.text == "I want check Today's todo list":
         line_bot_api.reply_message(
