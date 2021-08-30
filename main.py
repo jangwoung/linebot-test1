@@ -37,43 +37,6 @@ line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(LINE_CHANNEL_SECRET)
 
 
-def make_message():
-    return TemplateSendMessage(
-        alt_text="選択肢",
-        template=ButtonsTemplate(
-            title="選択肢のテスト",
-            text="下から1つ選んでね！",
-            actions=[
-                {
-                    "type": "postback",
-                    "data": "morning",
-                    "label": "朝"
-                },
-                {
-                    "type": "postback",
-                    "data": "noon",
-                    "label": "昼"
-                },
-                {
-                    "type": "postback",
-                    "data": "night",
-                    "label": "夜"
-                }
-            ]
-        )
-    )
-
-
-def select_message():
-    language_list = ["make", "check", "finish"]
-
-    items = [QuickReplyButton(action=PostbackAction(
-        label=f"{language}", text=f"I want {language} Today\'s todo list", data=f"{language}")) for language in language_list]
-
-    messages = TextSendMessage(text="What do you want to do?",
-                               quick_reply=QuickReply(items=items))
-
-
 @app.route("/callback", methods=['POST'])
 def callback():
     signature = request.headers['X-Line-Signature']
@@ -94,18 +57,26 @@ def response_message(event):
 
     if event.message.text == "Todo":
         line_bot_api.reply_message(
-            event.reply_token, select_message())
+            event.reply_token,
+            TextSendMessage(
+                text='メニュー',
+                quick_reply=QuickReply(
+                     items=[
+                         QuickReplyButton(
+                             action=PostbackAction(
+                                 label="異性に質問してみる", data="異性に質問してみる")
+                         ),
+                         QuickReplyButton(
+                             action=PostbackAction(
+                                 label="誰かの質問に答える", data="誰かの質問に答える")
+                         ),
+                     ])))
 
     else:
+        message = event.message.text
         line_bot_api.reply_message(
-            event.reply_token, make_message())
-
-
-@handler.add(PostbackEvent)
-def on_postback(event):
-    data = event.postback.data
-    line_bot_api.reply_message(
-        event.reply_token, TextSendMessage("選択しましたね！".format(data)))
+            event.reply_token,
+            TextSendMessage(text=message))
 
 
 if __name__ == "__main__":
