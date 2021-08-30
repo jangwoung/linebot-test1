@@ -45,7 +45,7 @@ def handle_message(event):
     # 基本的にここにコードを書いていきます。
     message = event.message.text
 
-    if TextMessage == 'Hi':
+    if message == 'Hi':
         line_bot_api.reply_message(
             TextSendMessage(text='Hello'))
     else:
