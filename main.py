@@ -67,10 +67,11 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text='Hello')
         )
-        line_bot_api.reply_message(
-            event.reply_token,
-            make_button_template()
-        )
+        messages = make_button_template()
+    line_bot_api.reply_message(
+        event.reply_token,
+        messages
+    )
     else:
         line_bot_api.reply_message(
             event.reply_token,
