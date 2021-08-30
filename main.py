@@ -45,27 +45,6 @@ def callback():
 def response_message(event):
 
     if event.message.text == "Todo":
-        buttons_template_message = TemplateSendMessage(
-            alt_text='お薬飲んだ？',
-            template=ButtonsTemplate(
-                title=today,
-                text='お薬飲んだ？',
-                actions=[
-                    PostbackAction(
-                        label='飲んだよ',
-                        display_text='飲んだよ',
-                        data=f"date={today}&status=ok"
-                    ),
-                    PostbackAction(
-                        label='後で飲むよ',
-                        display_text='後で飲むよ',
-                        data=f"date={today}&status=ng"
-                    )
-                ]
-            )
-        )
-
-    elif event.message.text == "Go":
         language_list = ["make", "check", "finish"]
 
         items = [QuickReplyButton(action=MessageAction(

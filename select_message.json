@@ -1,44 +1,19 @@
 {
-  "type": "bubble",
-  "direction": "ltr",
-  "body": {
-    "type": "box",
-    "layout": "vertical",
-    "contents": [
+  "type": "template",
+  "altText": "代価テキスト",
+  "template": {
+    "type": "confirm",
+    "text": "テキスト領域です。\n改行も可能です。",
+    "actions": [
       {
-        "type": "text",
-        "text": "What do you want to do?",
-        "align": "center"
-      }
-    ]
-  },
-  "footer": {
-    "type": "box",
-    "layout": "horizontal",
-    "contents": [
-      {
-        "type": "button",
-        "action": {
-          "type": "message",
-          "label": "make",
-          "text": "make"
-        }
+        "type": "message",
+        "label": "Yes",
+        "text": "yes"
       },
       {
-        "type": "button",
-        "action": {
-          "type": "message",
-          "label": "check",
-          "text": "check"
-        }
-      },
-      {
-        "type": "button",
-        "action": {
-          "type": "message",
-          "label": "finish",
-          "text": "finish"
-        }
+        "type": "message",
+        "label": "No",
+        "text": "no"
       }
     ]
   }
