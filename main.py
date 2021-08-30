@@ -125,7 +125,7 @@ def response_message(event):
         items = [QuickReplyButton(action=MessageAction(
             label=f"{setting}", text=f"set {setting} !")) for setting in setting_list]
 
-        msg2 = TextSendMessage(text="",
+        msg2 = TextSendMessage(text="setting",
                                quick_reply=QuickReply(items=items))
 
         line_bot_api.reply_message(event.reply_token, message=msg2)
