@@ -52,7 +52,31 @@ def response_message(event):
     elif event.message.text == "I want make Today's todo list":
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text="Todo"))
+            TextSendMessage(text="No.1"))
+        a = event.message.text
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="No.2"))
+        b = event.message.text
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="No.3"))
+        c = event.message.text
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="No.4"))
+        d = event.message.text
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="No.5"))
+        e = event.message.text
+
+        todolist = [a, b, c, d, e]
+
+        for x in todolist:
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text={todolist}))
 
     elif event.message.text == "I want check Today's todo list":
         line_bot_api.reply_message(
