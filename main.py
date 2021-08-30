@@ -1,4 +1,5 @@
 from flask import Flask, request, abort
+from werkzeug.datastructures import ContentRange
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -46,14 +47,16 @@ def handle_message(event):
     message = event.message.text
 
     if 'Hi' in event.message.text:
-        line_bot_api.reply_message(
-            TextSendMessage(text='Hello')
-        )
+        content = 'Hello'
+    elif 'hey' in event.message.text:
+        content = 'what'
     else:
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=message)
-        )
+        content = event.message.text
+
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=content)
+    )
 
 
 if __name__ == "__main__":
