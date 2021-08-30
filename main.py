@@ -57,7 +57,7 @@ def response_message(event):
         language_list = ["make", "check", "finish"]
 
         items = [QuickReplyButton(action=PostbackAction(
-            label=f"{language}", text=f"I want {language} Today\'s todo list")) for language in language_list]
+            label=f"{language}", data=f"I want {language} Today\'s todo list")) for language in language_list]
 
         messages = TextSendMessage(text="What do you want to do?",
                                    quick_reply=QuickReply(items=items))
@@ -89,7 +89,7 @@ def response_message(event):
 
 @handler.add(PostbackEvent)
 def handle_postback(event):
-    if event.postback.text == 'I want make Today\'s todo list':
+    if event.postback.data == 'I want make Today\'s todo list':
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="Hello"))
