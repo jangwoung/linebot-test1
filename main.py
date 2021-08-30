@@ -44,7 +44,6 @@ def handle_message(event):
     # 何を行う？
 
     if event.message.text == 'todo':
-        punch_in()
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="今日のToDo！")
