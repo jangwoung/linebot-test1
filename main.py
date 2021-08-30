@@ -41,7 +41,7 @@ def callback():
 
 
 @handler.add(MessageEvent, message=TextMessage)
-def response_message(event):
+def handle_message(event):
     language_list = ["Ruby", "Python", "PHP", "Java", "C"]
 
     items = [QuickReplyButton(action=MessageAction(
