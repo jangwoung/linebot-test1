@@ -21,6 +21,13 @@ line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(LINE_CHANNEL_SECRET)
 
 
+def make_todo(a):
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text="No." + num + ":" + a))
+    num = num+1
+
+
 @app.route("/callback", methods=['POST'])
 def callback():
     signature = request.headers['X-Line-Signature']
@@ -37,13 +44,6 @@ def callback():
 
 
 @handler.add(MessageEvent, message=TextMessage)
-def make_todo(a):
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text="No." + num + ":" + a))
-    num = num+1
-
-
 def response_message(event):
 
     if event.message.text == "Todo":
