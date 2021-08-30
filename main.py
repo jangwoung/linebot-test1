@@ -66,9 +66,16 @@ def handle_message(event):
 
     else:
         message = event.message.text
-        ilne_bot_api.reply_message(
+        line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=message))
+
+
+# @handler.add(PostbackEvent)
+# def handle_postback(event):
+ #   line_bot_api.reply_message(
+  #      event.reply_token,
+   #     TextSendMessage(text="Hi"))
 
 
 if __name__ == "__main__":
