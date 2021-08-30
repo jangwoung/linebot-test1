@@ -41,8 +41,8 @@ def callback():
 def response_message(event):
 
     if event.message.text == "Todo":
-        with open('./saisyohaguu_message.json') as f:
-            aisyohaguu_message = json.load(f)
+        with open('./select_message.json') as f:
+            select_message = json.load(f)
         line_bot_api.reply_message(
             event.reply_token,
             FlexSendMessage(alt_text='最初はぐー', contents=saisyohaguu_message)
