@@ -1,9 +1,6 @@
 import os
 import random
-import json
-import datetime
-import traceback
-import boto3
+
 
 from flask import Flask, request, abort
 from linebot import (
