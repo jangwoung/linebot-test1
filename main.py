@@ -45,7 +45,7 @@ def response_message(event):
             select_message = json.load(f)
         line_bot_api.reply_message(
             event.reply_token,
-            FlexSendMessage(alt_text='最初はぐー', contents=saisyohaguu_message)
+            FlexSendMessage(alt_text='最初はぐー', contents=select_message)
         )
 
     elif event.message.text == "Go":
