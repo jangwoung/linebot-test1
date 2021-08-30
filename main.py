@@ -10,7 +10,20 @@ from linebot.exceptions import (
     LineBotApiError, InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, QuickReplyButton, MessageAction, QuickReply, TextSendMessage, ImageSendMessage, VideoSendMessage, StickerSendMessage, AudioSendMessage, FollowEvent, FlexSendMessage, TemplateSendMessage, PostbackAction, ButtonsTemplate)
+    MessageEvent, TextMessage, TextSendMessage,
+    SourceUser, SourceGroup, SourceRoom,
+    TemplateSendMessage, ConfirmTemplate, MessageAction,
+    ButtonsTemplate, ImageCarouselTemplate, ImageCarouselColumn, URIAction,
+    PostbackAction, DatetimePickerAction,
+    CameraAction, CameraRollAction, LocationAction,
+    CarouselTemplate, CarouselColumn, PostbackEvent,
+    StickerMessage, StickerSendMessage, LocationMessage, LocationSendMessage,
+    ImageMessage, VideoMessage, AudioMessage, FileMessage,
+    UnfollowEvent, FollowEvent, JoinEvent, LeaveEvent, BeaconEvent,
+    FlexSendMessage, BubbleContainer, ImageComponent, BoxComponent,
+    TextComponent, SpacerComponent, IconComponent, ButtonComponent,
+    SeparatorComponent, QuickReply, QuickReplyButton
+)
 
 
 app = Flask(__name__)
@@ -42,15 +55,14 @@ def callback():
 def response_message(event):
 
     if event.message.text == "Todo":
-        language_list = ["make", "check", "finish"]
-
-        items = [QuickReplyButton(action=PostbackAction(
-            label=f"{language}", text=f"I want {language} Today's todo list")) for language in language_list]
-
-        messages = TextSendMessage(text="What do you want to do?",
-                                   quick_reply=QuickReply(items=items))
-
-        line_bot_api.reply_message(event.reply_token, messages=messages)
+        buttons_template = ButtonsTemplate(
+            title='友達追加ありがとう！', text='まず、あなたの性別を教えてください!', actions=[
+                PostbackAction(label='男', data='male'),
+                PostbackAction(label='女', data='female'),
+            ])
+        template_message = TemplateSendMessage(
+            alt_text='友達追加ありがとう！\nまず、あなたの性別を教えてください。', template=buttons_template)
+        line_bot_api.reply_message(event.reply_token, template_message)
 
     elif event.message.text == "I want make Today's todo list":
 
@@ -74,6 +86,14 @@ def response_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=message))
+
+
+@handler.add(PostbackEvent)
+def handle_postback(event):
+    if event.postback.data == 'male':
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="hi"))
 
 
 if __name__ == "__main__":
