@@ -39,12 +39,12 @@ def response_message(event):
 
     if event.message.text == "Todo":
 
-        language_list = ["Ruby", "Python", "PHP", "Java", "C"]
+        language_list = ["make", "Check ", "finish"]
 
         items = [QuickReplyButton(action=MessageAction(
-            label=f"{language}", text=f"{language}が好き")) for language in language_list]
+            label=f"{language}", text=f"I want {language} ToDolist")) for language in language_list]
 
-        messages = TextSendMessage(text="どの言語が好きですか？",
+        messages = TextSendMessage(text="What do you want to do?",
                                    quick_reply=QuickReply(items=items))
 
         line_bot_api.reply_message(event.reply_token, messages=messages)
