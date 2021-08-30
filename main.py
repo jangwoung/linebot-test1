@@ -1,5 +1,4 @@
 from flask import Flask, request, abort
-from werkzeug.datastructures import ContentRange
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -43,26 +42,11 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    global near_station_name
-    global near_station_address
-    global near_station_geo_lat
-    global near_station_geo_lon
-
-    if event.type == "message":
-        if (event.message.text == "Hi"):
-            line_bot_api.reply_message(
-                event.reply_token,
-                [
-                    TextSendMessage(text='お疲れ様です'),
-                ]
-            )
-        else:
-            line_bot_api.reply_message(
-                event.reply_token,
-                [
-                    TextSendMessage(text='です'),
-                ]
-            )
+    # 基本的にここにコードを書いていきます。
+    message = event.message.text
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text='[' + message + ']'))
 
 
 if __name__ == "__main__":
