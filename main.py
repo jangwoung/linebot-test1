@@ -1,14 +1,3 @@
-import os
-import random
-
-
-from flask import Flask, request, abort
-from linebot import (
-    LineBotApi, WebhookHandler
-)
-from linebot.exceptions import (
-    LineBotApiError, InvalidSignatureError
-)
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
     SourceUser, SourceGroup, SourceRoom, ImageSendMessage,
@@ -24,6 +13,19 @@ from linebot.models import (
     TextComponent, SpacerComponent, IconComponent, ButtonComponent,
     SeparatorComponent, QuickReply, QuickReplyButton
 )
+from linebot.exceptions import (
+    LineBotApiError, InvalidSignatureError
+)
+from linebot import (
+    LineBotApi, WebhookHandler
+)
+from flask import Flask, request, abort
+import os
+import random
+import logging
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
 
 app = Flask(__name__)
 num = 0
@@ -33,6 +35,33 @@ LINE_CHANNEL_SECRET = os.environ["LINE_CHANNEL_SECRET"]
 
 line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(LINE_CHANNEL_SECRET)
+
+
+def make_select_message():
+    return TemplateSendMessage(
+        alt_text="選択肢",
+        template=ButtonsTemplate(
+            title="選択肢のテスト",
+            text="下から1つ選んでね！",
+            actions=[
+                {
+                    "type": "postback",
+                    "data": "morning",
+                    "label": "朝"
+                },
+                {
+                    "type": "postback",
+                    "data": "noon",
+                    "label": "昼"
+                },
+                {
+                    "type": "postback",
+                    "data": "night",
+                    "label": "夜"
+                }
+            ]
+        )
+    )
 
 
 @app.route("/callback", methods=['POST'])
@@ -83,16 +112,7 @@ def response_message(event):
     else:
         message = event.message.text
         line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="Please enter\"Todo\""))
-
-
-@handler.add(PostbackEvent)
-def handle_postback(event):
-    if event.postback.data == 'I want make Today\'s todo list':
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="Hello"))
+            line_bot_api.reply_message(event.reply_token, make_select_message()))
 
 
 if __name__ == "__main__":
