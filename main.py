@@ -43,12 +43,11 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    # 基本的にここにコードを書いていきます。
-    message = event.message.text
+    # 基本的にここにコードを書いていきます。event.message.text
 
-    if message == "Hi":
+    if event.message.text == "Hi":
         content = 'Hello'
-    elif message == "Hey":
+    elif event.message.text == "Hey":
         content = 'what?'
     else:
         content = 'sorry'
