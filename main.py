@@ -22,9 +22,6 @@ from linebot import (
 from flask import Flask, request, abort
 import os
 import random
-import logging
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
 
 
 app = Flask(__name__)
@@ -64,6 +61,7 @@ def handle_message(event):
         messages = TextSendMessage(text="What do you want to do?",
                                    quick_reply=QuickReply(items=items))
 
+        line_bot_api.reply_message(event.reply_token, messages=messages)
         line_bot_api.reply_message(event.reply_token, messages=messages)
 
     else:
