@@ -65,8 +65,7 @@ def handle_message(event):
     if event.message.text == "Hi":
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text='Hello')
-            messages
+            TextSendMessage(text='Hello'), messages
         )
     else:
         line_bot_api.reply_message(
