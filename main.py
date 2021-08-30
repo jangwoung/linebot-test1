@@ -87,7 +87,7 @@ def response_message(event):
             TextSendMessage(text="Please enter\"Todo\""))
 
 
-@handler.add(PostbackEvent, message=TextMessage)
+@handler.add(PostbackEvent)
 def handle_postback(event):
     if event.postback.text == 'I want make Today\'s todo list':
         line_bot_api.reply_message(
