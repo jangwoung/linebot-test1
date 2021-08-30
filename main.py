@@ -45,7 +45,7 @@ def handle_message(event):
     # 基本的にここにコードを書いていきます。
     msg = event.message.text
     if msg == "Hi":
-        content = 'Hello'
+        content = "Hello"
     else:
         content = msg
 
