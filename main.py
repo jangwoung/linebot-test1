@@ -1,5 +1,3 @@
-
-
 # gcp
 
 import os
@@ -29,8 +27,8 @@ def auth():
         'https://www.googleapis.com/auth/drive'
     ]
 
-    SP_SHEET_KEY = 'SP_SHEET_KEY'
-    SP_SHEET = 'SP_SHEET'
+    SP_SHEET_KEY = '1_CwFW_S-m58X25EWuiwMY6kWfotNui9ZTAriRUt9tXU'
+    SP_SHEET = 'Todolist'
 
     credentials = ServiceAccountCredentials.from_json_keyfile_name(
         SP_CREDENTIAL_FILE, SP_SCOPE)
@@ -40,31 +38,18 @@ def auth():
     return worksheet
 
 
-# 出勤
+#
 
-def punch_in():
+def punch_in(todo):
     worksheet = auth()
     df = pd.DataFrame(worksheet.get_all_records())
 
     timestamp = datetime.now(JST)
     date = timestamp.strftime('%Y/%m/%d')
-    punch_in = timestamp.strftime('%H:%M')
+    punch_in = todo
 
-    df = df.append({'日付': date, '出勤時間': punch_in,
-                   '退勤時間': '00:00'}, ignore_index=True)
-    worksheet.update([df.columns.values.tolist()] + df.values.tolist())
-
-# 退勤
-
-
-def punch_out():
-    worksheet = auth()
-    df = pd.DataFrame(worksheet.get_all_records())
-
-    timestamp = datetime.now(JST)
-    punch_out = timestamp.strftime('%H:%M')
-
-    df.iloc[-1, 2] = punch_out
+    df = df.append({'Todolist': punch_in,
+                   'Date': date}, ignore_index=True)
     worksheet.update([df.columns.values.tolist()] + df.values.tolist())
 
 
@@ -96,7 +81,6 @@ def callback():
 def response_message(event):
 
     if event.message.text == "Todo":
-        punch_in()
         language_list = ["make", "check", "finish"]
 
         items = [QuickReplyButton(action=MessageAction(
@@ -111,29 +95,9 @@ def response_message(event):
 
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text="No.1"))
+            TextSendMessage(text="Please enter what you want to do"))
         a = event.message.text
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="No.2"))
-        b = event.message.text
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="No.3"))
-        c = event.message.text
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="No.4"))
-        d = event.message.text
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="No.5"))
-        e = event.message.text
-
-        for x in todolist:
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text={todolist}))
+        punch_in(a)
 
     elif event.message.text == "I want check Today's todo list":
         line_bot_api.reply_message(
