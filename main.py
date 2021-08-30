@@ -53,7 +53,6 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def response_message(event):
-
     if event.message.text == "Todo":
         select_list = ["make", "check", "finish"]
 
