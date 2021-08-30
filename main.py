@@ -48,10 +48,10 @@ def handle_message(event):
 
     if 'Hi' in event.message.text:
         content = 'Hello'
-    elif 'hey' in event.message.text:
+    elif 'Hey' in event.message.text:
         content = 'what'
     else:
-        content = event.message.text
+        content = 'sorry'
 
     line_bot_api.reply_message(
         event.reply_token,
