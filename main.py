@@ -56,25 +56,19 @@ def callback():
 def handle_message(event):
 
     if event.message.text == "Todo":
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(
-                text='メニュー',
-                quick_reply=QuickReply(
-                     items=[
-                         QuickReplyButton(
-                             action=PostbackAction(
-                                 label="異性に質問してみる", data="異性に質問してみる")
-                         ),
-                         QuickReplyButton(
-                             action=PostbackAction(
-                                 label="誰かの質問に答える", data="誰かの質問に答える")
-                         ),
-                     ])))
+        select_list = ["make", "check", "finish"]
+
+        items = [QuickReplyButton(action=MessageAction(
+            label=f"{select}", text=f"I want {select} Today's todo list")) for select in select_list]
+
+        messages = TextSendMessage(text="What do you want to do?",
+                                   quick_reply=QuickReply(items=items))
+
+        line_bot_api.reply_message(event.reply_token, messages=messages)
 
     else:
         message = event.message.text
-        line_bot_api.reply_message(
+        ilne_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=message))
 
