@@ -53,7 +53,7 @@ def callback():
 
 
 @handler.add(MessageEvent, message=TextMessage)
-def response_message(event):
+def handle_message(event):
 
     if event.message.text == "Todo":
         line_bot_api.reply_message(
