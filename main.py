@@ -1,27 +1,16 @@
-from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage,
-    SourceUser, SourceGroup, SourceRoom, ImageSendMessage,
-    TemplateSendMessage, ConfirmTemplate, MessageAction,
-    ButtonsTemplate, ImageCarouselTemplate, ImageCarouselColumn, URIAction,
-    PostbackAction, DatetimePickerAction,
-    CameraAction, CameraRollAction, LocationAction,
-    CarouselTemplate, CarouselColumn, PostbackEvent,
-    StickerMessage, StickerSendMessage, LocationMessage, LocationSendMessage,
-    ImageMessage, VideoMessage, AudioMessage, FileMessage,
-    UnfollowEvent, FollowEvent, JoinEvent, LeaveEvent, BeaconEvent,
-    FlexSendMessage, BubbleContainer, ImageComponent, BoxComponent,
-    TextComponent, SpacerComponent, IconComponent, ButtonComponent,
-    SeparatorComponent, QuickReply, QuickReplyButton
+import os
+import random
+
+
+from flask import Flask, request, abort
+from linebot import (
+    LineBotApi, WebhookHandler
 )
 from linebot.exceptions import (
     LineBotApiError, InvalidSignatureError
 )
-from linebot import (
-    LineBotApi, WebhookHandler
-)
-from flask import Flask, request, abort
-import os
-import random
+from linebot.models import (
+    MessageEvent, TextMessage, QuickReplyButton, MessageAction, QuickReply, TextSendMessage, ImageSendMessage, VideoSendMessage, StickerSendMessage, AudioSendMessage, FollowEvent, FlexSendMessage, TemplateSendMessage, PostbackAction, ButtonsTemplate)
 
 
 app = Flask(__name__)
@@ -50,32 +39,41 @@ def callback():
 
 
 @handler.add(MessageEvent, message=TextMessage)
-def handle_message(event):
+def response_message(event):
 
     if event.message.text == "Todo":
-        select_list = ["make", "check", "finish"]
+        language_list = ["make", "check", "finish"]
 
         items = [QuickReplyButton(action=MessageAction(
-            label=f"{select}", text=f"I want {select} Today's todo list")) for select in select_list]
+            label=f"{language}", text=f"I want {language} Today's todo list")) for language in language_list]
 
         messages = TextSendMessage(text="What do you want to do?",
                                    quick_reply=QuickReply(items=items))
 
         line_bot_api.reply_message(event.reply_token, messages=messages)
-        line_bot_api.reply_message(event.reply_token, messages=messages)
+
+    elif event.message.text == "I want make Today's todo list":
+
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="Please enter what you want to do Today!"))
+        a = event.message.text
+
+    elif event.message.text == "I want check Today's todo list":
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="Todo"))
+
+    elif event.message.text == "I want finish Today's todo list":
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="Todo"))
 
     else:
         message = event.message.text
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=message))
-
-
-# @handler.add(PostbackEvent)
-# def handle_postback(event):
- #   line_bot_api.reply_message(
-  #      event.reply_token,
-   #     TextSendMessage(text="Hi"))
+            TextSendMessage(text="Please enter\"Todo\""))
 
 
 if __name__ == "__main__":
