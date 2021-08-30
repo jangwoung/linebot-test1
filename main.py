@@ -41,30 +41,14 @@ def callback():
 
 
 @handler.add(MessageEvent, message=TextMessage)
-def handle_message(event):
-    def response_message(event):
-        # notesのCarouselColumnの各値は、変更してもらって結構です。
-    notes = [CarouselColumn(thumbnail_image_url="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",
-                            title="【ReleaseNote】トークルームを実装しました。",
-                            text="creation(創作中・考え中の何かしらのモノ・コト)に関して、意見を聞けるようにトークルーム機能を追加しました。",
-                            actions=[{"type": "message", "label": "サイトURL", "text": "https://renttle.jp/notes/kota/7"}]),
+def response_message(event):
+    language_list = ["Ruby", "Python", "PHP", "Java", "C"]
 
-             CarouselColumn(thumbnail_image_url="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",
-                            title="ReleaseNote】創作中の活動を報告する機能を追加しました。",
-                            text="創作中や考え中の時点の活動を共有できる機能を追加しました。",
-                            actions=[
-                                {"type": "message", "label": "サイトURL", "text": "https://renttle.jp/notes/kota/6"}]),
+    items = [QuickReplyButton(action=MessageAction(
+        label=f"{language}", text=f"{language}が好き")) for language in language_list]
 
-             CarouselColumn(thumbnail_image_url="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",
-                            title="【ReleaseNote】タグ機能を追加しました。",
-                            text="「イベントを作成」「記事を投稿」「本を登録」にタグ機能を追加しました。",
-                            actions=[
-                                {"type": "message", "label": "サイトURL", "text": "https://renttle.jp/notes/kota/5"}])]
-
-    messages = TemplateSendMessage(
-        alt_text='template',
-        template=CarouselTemplate(columns=notes),
-    )
+    messages = TextSendMessage(text="どの言語が好きですか？",
+                               quick_reply=QuickReply(items=items))
 
     line_bot_api.reply_message(event.reply_token, messages=messages)
 
