@@ -44,17 +44,17 @@ def handle_message(event):
     # 何を行う？
 
     if event.message.text == 'todo':
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="今日のToDo！")
-        )
 
         language_list = ["Ruby", "Python", "PHP", "Java", "C"]
         items = [QuickReplyButton(action=MessageAction(
             label=f"{language}", text=f"{language}が好き")) for language in language_list]
-        messages = TextSendMessage(text="どの言語が好きですか？",
-                                   quick_reply=QuickReply(items=items))
-        line_bot_api.reply_message(event.reply_token, messages=messages)
+
+        line_bot_api.reply_message(
+            event.reply_token,
+            messages=TextSendMessage(text="どの言語が好きですか？",
+                                     quick_reply=QuickReply(items=items))
+            line_bot_api.reply_message(event.reply_token, messages=messages)
+        )
 
     else:
         message = event.message.text
