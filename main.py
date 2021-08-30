@@ -1,14 +1,72 @@
-import os
 
-from flask import Flask, request, abort
-from linebot import (
-    LineBotApi, WebhookHandler
-)
-from linebot.exceptions import (
-    InvalidSignatureError
-)
+
+# gcp
+
+import os
+import random
+
 from linebot.models import (
     MessageEvent, TextMessage, QuickReplyButton, MessageAction, QuickReply, TextSendMessage, ImageSendMessage, VideoSendMessage, StickerSendMessage, AudioSendMessage)
+from linebot.exceptions import (
+    InvalidSignatureError)
+from linebot import (
+    LineBotApi, WebhookHandler)
+from flask import Flask, request, abort
+import pandas as pd
+from datetime import datetime, timedelta, timezone
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
+
+
+# タイムゾーンの生成
+JST = timezone(timedelta(hours=+9), 'JST')
+
+
+def auth():
+    SP_CREDENTIAL_FILE = 'secret.json'
+    SP_SCOPE = [
+        'https://spreadsheets.google.com/feeds',
+        'https://www.googleapis.com/auth/drive'
+    ]
+
+    SP_SHEET_KEY = 'SP_SHEET_KEY'
+    SP_SHEET = 'SP_SHEET'
+
+    credentials = ServiceAccountCredentials.from_json_keyfile_name(
+        SP_CREDENTIAL_FILE, SP_SCOPE)
+    gc = gspread.authorize(credentials)
+
+    worksheet = gc.open_by_key(SP_SHEET_KEY).worksheet(SP_SHEET)
+    return worksheet
+
+
+# 出勤
+
+def punch_in():
+    worksheet = auth()
+    df = pd.DataFrame(worksheet.get_all_records())
+
+    timestamp = datetime.now(JST)
+    date = timestamp.strftime('%Y/%m/%d')
+    punch_in = timestamp.strftime('%H:%M')
+
+    df = df.append({'日付': date, '出勤時間': punch_in,
+                   '退勤時間': '00:00'}, ignore_index=True)
+    worksheet.update([df.columns.values.tolist()] + df.values.tolist())
+
+# 退勤
+
+
+def punch_out():
+    worksheet = auth()
+    df = pd.DataFrame(worksheet.get_all_records())
+
+    timestamp = datetime.now(JST)
+    punch_out = timestamp.strftime('%H:%M')
+
+    df.iloc[-1, 2] = punch_out
+    worksheet.update([df.columns.values.tolist()] + df.values.tolist())
+
 
 app = Flask(__name__)
 
@@ -38,7 +96,7 @@ def callback():
 def response_message(event):
 
     if event.message.text == "Todo":
-
+        punch_in()
         language_list = ["make", "check", "finish"]
 
         items = [QuickReplyButton(action=MessageAction(
