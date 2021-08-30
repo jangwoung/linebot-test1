@@ -1,9 +1,5 @@
 import os
-import random
-import gspread
 
-
-from oauth2client.service_account import ServiceAccountCredentials
 from flask import Flask, request, abort
 from linebot import (
     LineBotApi, WebhookHandler
@@ -13,17 +9,6 @@ from linebot.exceptions import (
 )
 from linebot.models import (
     MessageEvent, TextMessage, QuickReplyButton, MessageAction, QuickReply, TextSendMessage, ImageSendMessage, VideoSendMessage, StickerSendMessage, AudioSendMessage)
-
-scope = ['https://spreadsheets.google.com/feeds',
-         'https://www.googleapis.com/auth/drive']
-
-credentials = ServiceAccountCredentials.from_json_keyfile_name(
-    'line-bot-test-324508-8fb79546f3b4.json', scope)
-gc = gspread.authorize(credentials)
-wks = gc.open('gspreadサンプル').sheet1
-
-wks.update_acell('A1', 'Hello World!')
-print(wks.acell('A1'))
 
 app = Flask(__name__)
 
