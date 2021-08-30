@@ -1,20 +1,15 @@
-# gcp
-
 import os
 import random
 
+from flask import Flask, request, abort
+from linebot import (
+    LineBotApi, WebhookHandler
+)
+from linebot.exceptions import (
+    InvalidSignatureError
+)
 from linebot.models import (
     MessageEvent, TextMessage, QuickReplyButton, MessageAction, QuickReply, TextSendMessage, ImageSendMessage, VideoSendMessage, StickerSendMessage, AudioSendMessage)
-from linebot.exceptions import (
-    InvalidSignatureError)
-from linebot import (
-    LineBotApi, WebhookHandler)
-from flask import Flask, request, abort
-import pandas as pd
-from datetime import datetime, timedelta, timezone
-import gspread
-from oauth2client.service_account import ServiceAccountCredentials
-
 
 app = Flask(__name__)
 
