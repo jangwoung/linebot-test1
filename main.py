@@ -1,3 +1,4 @@
+from linebot.models import MessageEvent, TextMessage, TextSendMessage, FollowEvent, FlexSendMessage
 import os
 import random
 
@@ -36,6 +37,28 @@ def callback():
     return 'OK'
 
 
+@handler.add(FollowEvent)
+def handle_follow(event):
+    with open('./select_message.json') as f:
+        select_message_message = json.load(f)
+    line_bot_api.reply_message(
+        event.reply_token,
+        FlexSendMessage(alt_text='What do you want to do?',
+                        contents=saisyohaguu_message)
+    )
+
+
+@handler.default()
+def default(event):
+    with open('./select_message_message.json') as f:
+        select_message = json.load(f)
+    line_bot_api.reply_message(
+        event.reply_token,
+        FlexSendMessage(alt_text='What do you want to do?',
+                        contents=saisyohaguu_message)
+    )
+
+
 @handler.add(MessageEvent, message=TextMessage)
 def response_message(event):
 
@@ -49,6 +72,16 @@ def response_message(event):
                                    quick_reply=QuickReply(items=items))
 
         line_bot_api.reply_message(event.reply_token, messages=messages)
+
+    elif event.message.text == "Go":
+        buttons_template = ButtonsTemplate(
+            title='友達追加ありがとう！', text='まず、あなたの性別を教えてください!', actions=[
+                PostbackAction(label='男', data='male'),
+                PostbackAction(label='女', data='female'),
+            ])
+        template_message = TemplateSendMessage(
+            alt_text='友達追加ありがとう！\nまず、あなたの性別を教えてください。', template=buttons_template)
+        line_bot_api.reply_message(event.reply_token, template_message)
 
     elif event.message.text == "I want make Today's todo list":
 
