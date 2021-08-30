@@ -46,14 +46,15 @@ def handle_message(event):
     msg = event.message.text
 
     def message_text(event):
-        if msg == 'Hi':
+        if msg == "Hi":
             content = 'Hello'
         else:
             content = msg
 
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=msg))
+            TextSendMessage(text=msg)
+        )
 
 
 if __name__ == "__main__":
