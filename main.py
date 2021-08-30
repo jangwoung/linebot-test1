@@ -13,6 +13,11 @@ from linebot.models import (
     MessageEvent, TextMessage, QuickReplyButton, MessageAction, QuickReply, TextSendMessage, ImageSendMessage, VideoSendMessage, StickerSendMessage, AudioSendMessage, FollowEvent, FlexSendMessage, TemplateSendMessage, PostbackAction, ButtonsTemplate)
 
 
+def record(event):
+    a = event.message.text
+    line_bot_api.reply_message(event.reply_token, messages=messages)
+
+
 app = Flask(__name__)
 num = 0
 
@@ -44,8 +49,8 @@ def response_message(event):
     if event.message.text == "Todo":
         language_list = ["make", "check", "finish"]
 
-        items = [QuickReplyButton(action=MessageAction(
-            label=f"{language}", text=f"I want {language} Today's todo list")) for language in language_list]
+        items = [QuickReplyButton(action=PostbackAction(
+            label=f"{language}", text=f"I want {language} Today\'s todo list")) for language in language_list]
 
         messages = TextSendMessage(text="What do you want to do?",
                                    quick_reply=QuickReply(items=items))
@@ -57,7 +62,6 @@ def response_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="Please enter what you want to do Today!"))
-        a = event.message.text
 
     elif event.message.text == "I want check Today's todo list":
         line_bot_api.reply_message(
@@ -74,6 +78,14 @@ def response_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="Please enter\"Todo\""))
+
+
+@handler.add(PostbackEvent)
+def handle_postback(event):
+    if event.postback.text == 'I want make Today\'s todo list':
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="Hello"))
 
 
 if __name__ == "__main__":
