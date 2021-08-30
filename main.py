@@ -44,7 +44,7 @@ def response_message(event):
     if event.message.text == "Todo":
         language_list = ["make", "check", "finish"]
 
-        items = [QuickReplyButton(action=MessageAction(
+        items = [QuickReplyButton(action=PostbackAction(
             label=f"{language}", text=f"I want {language} Today's todo list")) for language in language_list]
 
         messages = TextSendMessage(text="What do you want to do?",
@@ -73,7 +73,7 @@ def response_message(event):
         message = event.message.text
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text="Please enter\"Todo\""))
+            TextSendMessage(text=message))
 
 
 if __name__ == "__main__":
