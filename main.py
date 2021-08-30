@@ -10,13 +10,20 @@ from linebot.exceptions import (
     LineBotApiError, InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, QuickReplyButton, MessageAction, QuickReply, TextSendMessage, ImageSendMessage, VideoSendMessage, StickerSendMessage, AudioSendMessage, FollowEvent, FlexSendMessage, TemplateSendMessage, PostbackAction, ButtonsTemplate)
-
-
-def record(event):
-    a = event.message.text
-    line_bot_api.reply_message(event.reply_token, messages=messages)
-
+    MessageEvent, TextMessage, TextSendMessage,
+    SourceUser, SourceGroup, SourceRoom, ImageSendMessage,
+    TemplateSendMessage, ConfirmTemplate, MessageAction,
+    ButtonsTemplate, ImageCarouselTemplate, ImageCarouselColumn, URIAction,
+    PostbackAction, DatetimePickerAction,
+    CameraAction, CameraRollAction, LocationAction,
+    CarouselTemplate, CarouselColumn, PostbackEvent,
+    StickerMessage, StickerSendMessage, LocationMessage, LocationSendMessage,
+    ImageMessage, VideoMessage, AudioMessage, FileMessage,
+    UnfollowEvent, FollowEvent, JoinEvent, LeaveEvent, BeaconEvent,
+    FlexSendMessage, BubbleContainer, ImageComponent, BoxComponent,
+    TextComponent, SpacerComponent, IconComponent, ButtonComponent,
+    SeparatorComponent, QuickReply, QuickReplyButton
+)
 
 app = Flask(__name__)
 num = 0
@@ -57,7 +64,7 @@ def response_message(event):
 
         line_bot_api.reply_message(event.reply_token, messages=messages)
 
-    elif event.message.text == "I want make Today's todo list":
+    elif event.message.text == "I want make Today\'s todo list":
 
         line_bot_api.reply_message(
             event.reply_token,
@@ -68,7 +75,7 @@ def response_message(event):
             event.reply_token,
             TextSendMessage(text="Todo"))
 
-    elif event.message.text == "I want finish Today's todo list":
+    elif event.message.text == "I want finish Today\'s todo list":
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="Todo"))
@@ -80,7 +87,7 @@ def response_message(event):
             TextSendMessage(text="Please enter\"Todo\""))
 
 
-@handler.add(PostbackEvent)
+@handler.add(PostbackEvent, message=TextMessage)
 def handle_postback(event):
     if event.postback.text == 'I want make Today\'s todo list':
         line_bot_api.reply_message(
