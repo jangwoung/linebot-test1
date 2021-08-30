@@ -49,20 +49,20 @@ def response_message(event):
 
         line_bot_api.reply_message(event.reply_token, messages=messages)
 
-        if event.message.text == "I want make Today's todo list":
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text="Todo"))
+    elif event.message.text == "I want make Today's todo list":
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="Todo"))
 
-        elif event.message.text == "I want check Today's todo list":
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text="Todo"))
+    elif event.message.text == "I want check Today's todo list":
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="Todo"))
 
-        elif event.message.text == "I want finish Today's todo list":
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text="Todo"))
+    elif event.message.text == "I want finish Today's todo list":
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="Todo"))
 
     else:
         message = event.message.text
