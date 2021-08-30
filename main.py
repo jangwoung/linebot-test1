@@ -12,8 +12,6 @@ from linebot.exceptions import (
 from linebot.models import (
     MessageEvent, TextMessage, QuickReplyButton, MessageAction, QuickReply, TextSendMessage, ImageSendMessage, VideoSendMessage, StickerSendMessage, AudioSendMessage, FollowEvent, FlexSendMessage)
 
-
-@handler.add(FollowEvent)
 app = Flask(__name__)
 num = 0
 
@@ -39,41 +37,16 @@ def callback():
     return 'OK'
 
 
-@handler.add(FollowEvent)
-def handle_follow(event):
-    with open('./select_message.json') as f:
-        select_message_message = json.load(f)
-    line_bot_api.reply_message(
-        event.reply_token,
-        FlexSendMessage(alt_text='What do you want to do?',
-                        contents=saisyohaguu_message)
-    )
-
-
-@handler.default()
-def default(event):
-    with open('./select_message_message.json') as f:
-        select_message = json.load(f)
-    line_bot_api.reply_message(
-        event.reply_token,
-        FlexSendMessage(alt_text='What do you want to do?',
-                        contents=saisyohaguu_message)
-    )
-
-
 @handler.add(MessageEvent, message=TextMessage)
 def response_message(event):
 
     if event.message.text == "Todo":
-        language_list = ["make", "check", "finish"]
-
-        items = [QuickReplyButton(action=MessageAction(
-            label=f"{language}", text=f"I want {language} Today's todo list")) for language in language_list]
-
-        messages = TextSendMessage(text="What do you want to do?",
-                                   quick_reply=QuickReply(items=items))
-
-        line_bot_api.reply_message(event.reply_token, messages=messages)
+        with open('./saisyohaguu_message.json') as f:
+            aisyohaguu_message = json.load(f)
+        line_bot_api.reply_message(
+            event.reply_token,
+            FlexSendMessage(alt_text='最初はぐー', contents=saisyohaguu_message)
+        )
 
     elif event.message.text == "Go":
         buttons_template = ButtonsTemplate(
