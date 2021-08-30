@@ -37,13 +37,6 @@ def callback():
 
 
 @handler.add(MessageEvent, message=TextMessage)
-def make_todo(a):
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text="No." + num + ":" + a))
-    num = num + 1
-
-
 def response_message(event):
 
     if event.message.text == "Todo":
