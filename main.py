@@ -16,43 +16,6 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
 
-# タイムゾーンの生成
-JST = timezone(timedelta(hours=+9), 'JST')
-
-
-def auth():
-    SP_CREDENTIAL_FILE = 'secret.json'
-    SP_SCOPE = [
-        'https://spreadsheets.google.com/feeds',
-        'https://www.googleapis.com/auth/drive'
-    ]
-
-    SP_SHEET_KEY = '1_CwFW_S-m58X25EWuiwMY6kWfotNui9ZTAriRUt9tXU'
-    SP_SHEET = 'Todolist'
-
-    credentials = ServiceAccountCredentials.from_json_keyfile_name(
-        SP_CREDENTIAL_FILE, SP_SCOPE)
-    gc = gspread.authorize(credentials)
-
-    worksheet = gc.open_by_key(SP_SHEET_KEY).worksheet(SP_SHEET)
-    return worksheet
-
-
-#
-
-def punch_in(todo):
-    worksheet = auth()
-    df = pd.DataFrame(worksheet.get_all_records())
-
-    timestamp = datetime.now(JST)
-    date = timestamp.strftime('%Y/%m/%d')
-    punch_in = todo
-
-    df = df.append({'Todolist': punch_in,
-                   'Date': date}, ignore_index=True)
-    worksheet.update([df.columns.values.tolist()] + df.values.tolist())
-
-
 app = Flask(__name__)
 
 LINE_CHANNEL_ACCESS_TOKEN = os.environ["LINE_CHANNEL_ACCESS_TOKEN"]
@@ -97,7 +60,6 @@ def response_message(event):
             event.reply_token,
             TextSendMessage(text="Please enter what you want to do"))
         a = event.message.text
-        punch_in(a)
 
     elif event.message.text == "I want check Today's todo list":
         line_bot_api.reply_message(
