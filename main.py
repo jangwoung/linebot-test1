@@ -14,12 +14,13 @@ import random
 
 app = Flask(__name__)
 
-#環境変数取得
+# 環境変数取得
 LINE_CHANNEL_ACCESS_TOKEN = os.environ["LINE_CHANNEL_ACCESS_TOKEN"]
 LINE_CHANNEL_SECRET = os.environ["LINE_CHANNEL_SECRET"]
 
 line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(LINE_CHANNEL_SECRET)
+
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -43,12 +44,18 @@ def callback():
 def handle_message(event):
     # 基本的にここにコードを書いていきます。
     message = event.message.text
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=message))
+
+    if text == 'Hi':
+        line_bot_api.reply_message(
+            TextSendMessage(text='Hello'))
+    else:
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=message)
+        )
 
 
 if __name__ == "__main__":
-#    app.run()
+    #    app.run()
     port = int(os.getenv("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
