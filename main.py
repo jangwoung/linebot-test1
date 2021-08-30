@@ -43,19 +43,26 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    # 基本的にここにコードを書いていきます。event.message.text
+    global near_station_name
+    global near_station_address
+    global near_station_geo_lat
+    global near_station_geo_lon
 
-    if event.message.text == "Hi":
-        content = 'Hello'
-    elif event.message.text == "Hey":
-        content = 'what?'
-    else:
-        content = 'sorry'
-
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text='ai')
-    )
+    if event.type == "message":
+        if (event.message.text == "Hi"):
+            line_bot_api.reply_message(
+                event.reply_token,
+                [
+                    TextSendMessage(text='お疲れ様です'),
+                ]
+            )
+        else:
+            line_bot_api.reply_message(
+                event.reply_token,
+                [
+                    TextSendMessage(text='です'),
+                ]
+            )
 
 
 if __name__ == "__main__":
