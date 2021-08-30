@@ -123,7 +123,7 @@ def response_message(event):
         a = event.message.text
 
         msg = TextSendMessage(action=MessageAction(
-            text="want to do Today!"))
+            text=f"want to do Today!"))
 
         line_bot_api.reply_message(
             event.reply_token,
