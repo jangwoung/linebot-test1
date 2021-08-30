@@ -42,8 +42,9 @@ def callback():
 def handle_message(event):
 
     # 何を行う？
+    message = event.message.text
 
-    if event.message.text == 'todo':
+    if message == 'todo':
 
         language_list = ["Ruby", "Python", "PHP", "Java", "C"]
         items = [QuickReplyButton(action=MessageAction(
@@ -57,7 +58,6 @@ def handle_message(event):
         )
 
     else:
-        message = event.message.text
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=message)
