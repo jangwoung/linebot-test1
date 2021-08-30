@@ -2,7 +2,6 @@ import os
 import random
 
 from flask import Flask, request, abort
-from flask.helpers import total_seconds
 from linebot import (
     LineBotApi, WebhookHandler
 )
@@ -41,21 +40,29 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    buttons_template_message = TemplateSendMessage(
-        alt_text='今日はなにしようか？',
-        template=ButtonsTemplate(
-            title=ToDo,
-            text='何する？',
-            actions=[
-                PostbackAction(
-                    label='TODO',
-                    display_text='TODO',
-                    data=f"date={today}&status=ok"
-                )
-            ]
+
+    # 何を行う？
+
+    if event.message.text == 'todo':
+        punch_in()
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="今日のToDo！")
         )
-    )
-    line_bot_api.push_message(user, buttons_template_message)
+
+        language_list = ["Ruby", "Python", "PHP", "Java", "C"]
+        items = [QuickReplyButton(action=MessageAction(
+            label=f"{language}", text=f"{language}が好き")) for language in language_list]
+        messages = TextSendMessage(text="どの言語が好きですか？",
+                                   quick_reply=QuickReply(items=items))
+        line_bot_api.reply_message(event.reply_token, messages=messages)
+
+    else:
+        message = event.message.text
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=message)
+        )
 
 
 if __name__ == "__main__":
