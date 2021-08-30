@@ -44,17 +44,15 @@ def callback():
 def handle_message(event):
     # 基本的にここにコードを書いていきます。
     msg = event.message.text
+    if msg == "Hi":
+        content = 'Hello'
+    else:
+        content = msg
 
-    def message_text(event):
-        if msg == "Hi":
-            content = 'Hello'
-        else:
-            content = msg
-
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=msg)
-        )
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=msg)
+    )
 
 
 if __name__ == "__main__":
