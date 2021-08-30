@@ -12,6 +12,7 @@ from linebot.models import (
     MessageEvent, TextMessage, QuickReplyButton, MessageAction, QuickReply, TextSendMessage, ImageSendMessage, VideoSendMessage, StickerSendMessage, AudioSendMessage)
 
 app = Flask(__name__)
+num = 0
 
 LINE_CHANNEL_ACCESS_TOKEN = os.environ["LINE_CHANNEL_ACCESS_TOKEN"]
 LINE_CHANNEL_SECRET = os.environ["LINE_CHANNEL_SECRET"]
@@ -36,6 +37,13 @@ def callback():
 
 
 @handler.add(MessageEvent, message=TextMessage)
+def make_todo(a):
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text="No." + num + ":" + a))
+    num = num+1
+
+
 def response_message(event):
 
     if event.message.text == "Todo":
