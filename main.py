@@ -121,12 +121,12 @@ def response_message(event):
 
     elif event.message.text == "I want make Today's todo list":
         if num == 0 or num == 1 or num == 2:
-        a = event.message.text
-        number = num + 1
+            a = event.message.text
+            number = num + 1
 
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="Please enter what you want to do Today!"+a, messages="No." + number))
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text="Please enter what you want to do Today!"+a, messages="No." + number))
 
     elif event.message.text == "I want check Today's todo list":
         line_bot_api.reply_message(
