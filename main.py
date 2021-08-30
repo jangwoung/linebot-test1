@@ -63,10 +63,6 @@ def callback():
 def handle_message(event):
     # 基本的にここにコードを書いていきます。event.message.text
     if event.message.text == "Hi":
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text='Hello')
-        )
 
         line_bot_api.reply_message(
             event.reply_token,
