@@ -42,16 +42,15 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    # 基本的にここにコードを書いていきます。
-    msg = event.message.text
-    if msg == "Hi":
+    # 基本的にここにコードを書いていきます。event.message.text
+    if event.message.text == "Hi":
         content = "Hello"
     else:
-        content = msg
+        content = event.message.text
 
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=msg)
+        TextSendMessage(text=event.message.text)
     )
 
 
