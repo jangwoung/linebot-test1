@@ -37,7 +37,7 @@ line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(LINE_CHANNEL_SECRET)
 
 
-def make_select_message():
+def make_message():
     return TemplateSendMessage(
         alt_text="選択肢",
         template=ButtonsTemplate(
@@ -64,6 +64,16 @@ def make_select_message():
     )
 
 
+def select_message():
+    language_list = ["make", "check", "finish"]
+
+    items = [QuickReplyButton(action=PostbackAction(
+        label=f"{language}", text=f"I want {language} Today\'s todo list", data=f"{language}")) for language in language_list]
+
+    messages = TextSendMessage(text="What do you want to do?",
+                               quick_reply=QuickReply(items=items))
+
+
 @app.route("/callback", methods=['POST'])
 def callback():
     signature = request.headers['X-Line-Signature']
@@ -83,36 +93,19 @@ def callback():
 def response_message(event):
 
     if event.message.text == "Todo":
-        language_list = ["make", "check", "finish"]
-
-        items = [QuickReplyButton(action=PostbackAction(
-            label=f"{language}", data=f"I want {language} Today\'s todo list")) for language in language_list]
-
-        messages = TextSendMessage(text="What do you want to do?",
-                                   quick_reply=QuickReply(items=items))
-
-        line_bot_api.reply_message(event.reply_token, messages=messages)
-
-    elif event.message.text == "I want make Today\'s todo list":
-
         line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="Please enter what you want to do Today!"))
-
-    elif event.message.text == "I want check Today's todo list":
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="Todo"))
-
-    elif event.message.text == "I want finish Today\'s todo list":
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="Todo"))
+            event.reply_token, select_message())
 
     else:
-        message = event.message.text
         line_bot_api.reply_message(
-            line_bot_api.reply_message(event.reply_token, make_select_message()))
+            event.reply_token, make_message())
+
+
+@handler.add(PostbackEvent)
+def on_postback(event):
+    data = event.postback.data
+    line_bot_api.reply_message(
+        event.reply_token, TextSendMessage("選択しましたね！".format(data)))
 
 
 if __name__ == "__main__":
