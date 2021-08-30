@@ -122,8 +122,9 @@ def response_message(event):
     elif event.message.text == "I want make Today's todo list":
         a = event.message.text
 
-        msg = TextSendMessage(
-            text="Please enter what you want to do Today!", quick_reply=QuickReply(items="No."))
+        msg = TextSendMessage(action=MessageAction(
+            text="want to do Today!"))
+
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(messages=msg))
