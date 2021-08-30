@@ -55,14 +55,15 @@ def callback():
 def response_message(event):
 
     if event.message.text == "Todo":
-        buttons_template = ButtonsTemplate(
-            title='友達追加ありがとう！', text='まず、あなたの性別を教えてください!', actions=[
-                PostbackAction(label='男', data='male'),
-                PostbackAction(label='女', data='female'),
-            ])
-        template_message = TemplateSendMessage(
-            alt_text='友達追加ありがとう！\nまず、あなたの性別を教えてください。', template=buttons_template)
-        line_bot_api.reply_message(event.reply_token, template_message)
+        select_list = ["make", "check", "finish"]
+
+        items = [QuickReplyButton(action=MessageAction(
+            label=f"{select}", text=f"I want {select} Today's todo list")) for select in select_list]
+
+        messages = TextSendMessage(text="What do you want to do?",
+                                   quick_reply=QuickReply(items=items))
+
+        line_bot_api.reply_message(event.reply_token, messages=messages)
 
     elif event.message.text == "I want make Today's todo list":
 
