@@ -1,6 +1,8 @@
 import os
+import random
 
 from flask import Flask, request, abort
+from flask.helpers import total_seconds
 from linebot import (
     LineBotApi, WebhookHandler
 )
@@ -8,7 +10,7 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, QuickReplyButton, MessageAction, QuickReply, TextSendMessage)
+    MessageEvent, TextMessage, QuickReplyButton, MessageAction, QuickReply, TextSendMessage, ImageSendMessage, VideoSendMessage, StickerSendMessage, AudioSendMessage)
 
 app = Flask(__name__)
 
@@ -21,11 +23,14 @@ handler = WebhookHandler(LINE_CHANNEL_SECRET)
 
 @app.route("/callback", methods=['POST'])
 def callback():
+    # get X-Line-Signature header value
     signature = request.headers['X-Line-Signature']
 
+    # get request body as text
     body = request.get_data(as_text=True)
     app.logger.info("Request body: " + body)
 
+    # handle webhook body
     try:
         handler.handle(body, signature)
     except InvalidSignatureError:
@@ -35,16 +40,22 @@ def callback():
 
 
 @handler.add(MessageEvent, message=TextMessage)
-def response_message(event):
-    language_list = ["Ruby", "Python", "PHP", "Java", "C"]
-
-    items = [QuickReplyButton(action=MessageAction(
-        label=f"{language}", text=f"{language}が好き")) for language in language_list]
-
-    messages = TextSendMessage(text="どの言語が好きですか？",
-                               quick_reply=QuickReply(items=items))
-
-    line_bot_api.reply_message(event.reply_token, messages=messages)
+def handle_message(event):
+    buttons_template_message = TemplateSendMessage(
+        alt_text='今日はなにしようか？',
+        template=ButtonsTemplate(
+            title=ToDo,
+            text='何する？',
+            actions=[
+                PostbackAction(
+                    label='TODO',
+                    display_text='TODO',
+                    data=f"date={today}&status=ok"
+                )
+            ]
+        )
+    )
+    line_bot_api.push_message(user, buttons_template_message)
 
 
 if __name__ == "__main__":
