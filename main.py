@@ -90,8 +90,8 @@ def handle_postback(event):
         select_list = ["study", "exercise", "reading", "sleep", "shopping"]
         items2 = [QuickReplyButton(action=MessageAction(
             label=f"{select}", data="do", text=f"No.2: Let's {select}! \ndo my best!")) for select in select_list]
-        msg1 = TextSendMessage(
-            text=text="OK! Set No.2", quick_reply=QuickReply(items=items2))
+        msg1 = TextSendMessage(text="OK! Set No.2",
+                               quick_reply=QuickReply(items=items2))
         line_bot_api.reply_message(event.reply_token, messages=msg1)
 
     elif event.postback.data == 'No.3':
@@ -99,7 +99,7 @@ def handle_postback(event):
         items3 = [QuickReplyButton(action=MessageAction(
             label=f"{select}", data="do", text=f"No.3: Let's {select} today!")) for select in select_list]
         msg1 = TextSendMessage(
-            text=text="OK! Set No.3", quick_reply=QuickReply(items=items3))
+            text="OK! Set No.3", quick_reply=QuickReply(items=items3))
         line_bot_api.reply_message(event.reply_token, messages=msg1)
 
     elif event.postback.data == 'check':
