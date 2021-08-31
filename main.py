@@ -73,9 +73,9 @@ def response_message(event):
 def handle_postback(event):
     if event.postback.data == 'No.1':
         select_list = ["study", "exercise", "reading", "sleep", "shopping"]
-        items = [QuickReplyButton(action=MessageAction(
+        items = [QuickReplyButton(action=PostbackAction(
             label=f"{select}", text=f"Let's {select} Today!")) for select in select_list]
-        msg1 = TextSendMessage(text="{select}",
+        msg1 = TextSendMessage(text="No.1",
                                quick_reply=QuickReply(items=items))
         line_bot_api.reply_message(event.reply_token, messages=msg1)
 
