@@ -64,12 +64,12 @@ def response_message(event):
     elif event.message.text == "I want finish Today's todo list":
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text="Todo"))
+            TextSendMessage(text="finish!"))
 
-    elif event.message.text == "Setting!":
+    elif event.message.text == "finish!":
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(messages="Todo"))
+            TextSendMessage(messages="大変よくできました！！"))
 
     else:
         line_bot_api.reply_message(
@@ -79,9 +79,6 @@ def response_message(event):
 
 @handler.add(PostbackEvent)
 def handle_postback(event):
-
-    global items1, items2, items3
-    items1, items2, items3 = "none"
 
     if event.postback.data == 'No.1':
         select_list = ["study", "exercise", "reading", "sleep", "shopping"]
@@ -108,12 +105,9 @@ def handle_postback(event):
         line_bot_api.reply_message(event.reply_token, messages=msg1)
 
     elif event.postback.data == 'check':
-        items = [QuickReplyButton(action=MessageAction(
-            label="list", text="No.1" + items1 + "No.2" + items2 + "No.3" + items3,))
-        ]
-        msg1 = TextSendMessage(
-            text="Todo", quick_reply=QuickReply(items=items))
-        line_bot_api.reply_message(event.reply_token, messages=msg1)
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="ㅠㅠ"))
 
 
 if __name__ == "__main__":
