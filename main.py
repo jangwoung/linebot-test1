@@ -54,9 +54,9 @@ def response_message(event):
 #　確認
     elif event.message.text == "I want check Today's todo list":
         items = [QuickReplyButton(action=PostbackAction(
-            label="check", data="check"))
+            label="check", data="check.."))
         ]
-        msg2 = TextSendMessage(text="select todo number!",
+        msg2 = TextSendMessage(text="to tell the truth...",
                                quick_reply=QuickReply(items=items))
         line_bot_api.reply_message(event.reply_token, messages=msg2)
 
@@ -81,9 +81,9 @@ def handle_postback(event):
     if event.postback.data == 'No.1':
         select_list = ["study", "exercise", "reading", "sleep", "shopping"]
         items1 = [QuickReplyButton(action=MessageAction(
-            label=f"{select}", text=f"\"No.1\: \"Let's {select} today!")) for select in select_list]
+            label=f"{select}", text=f"No.1: Let's {select} today!")) for select in select_list]
         msg1 = TextSendMessage(
-            text="OK!", quick_reply=QuickReply(items=items1))
+            text="OK! Set" + , quick_reply=QuickReply(items=items1))
         line_bot_api.reply_message(event.reply_token, messages=msg1)
 
     elif event.postback.data == 'No.2':
@@ -105,7 +105,7 @@ def handle_postback(event):
     elif event.postback.data == 'check':
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text="ㅠㅠ"))
+            TextSendMessage(text="incompleteㅠㅠ"))
 
     elif event.postback.data == 'cancel':
         line_bot_api.reply_message(
