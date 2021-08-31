@@ -56,7 +56,7 @@ def response_message(event):
         setting_list = ["No.1", "No.2", "No.3"]
 
         items = [QuickReplyButton(action=MessageAction(
-            label=f"{setting}", text=f"I want {setting} Today's todo list")) for setting in setting_list]
+            label=f"{setting}", text=f"Setting {setting}!")) for setting in setting_list]
 
         msg2 = TextSendMessage(text="What do you want to do?",
                                quick_reply=QuickReply(items=items))
