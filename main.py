@@ -56,7 +56,7 @@ def response_message(event):
         setting_list = ["No.1", "No.2", "No.3"]
 
         items = [QuickReplyButton(action=PostbackAction(
-            label=f"{setting}", data=f"{setting}", text=f"{setting}")) for setting in setting_list]
+            label=f"{setting}", data=f"{setting}")) for setting in setting_list]
 
         msg2 = TextSendMessage(text="select todo number!",
                                quick_reply=QuickReply(items=items))
@@ -77,6 +77,16 @@ def response_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="Please enter\"Todo\""))
+
+
+@handler.add(PostbackEvent)
+def handle_postback(event):
+    if event.postback.data == 'No.1':
+
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(
+                text='Hi'))
 
 
 if __name__ == "__main__":
