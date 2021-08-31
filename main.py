@@ -69,6 +69,11 @@ def response_message(event):
                                quick_reply=QuickReply(items=items))
         line_bot_api.reply_message(event.reply_token, messages=msg3)
 
+    elif event.message.text == "Hang in there!!":
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="Have a nice day!!"))
+
     else:
         line_bot_api.reply_message(
             event.reply_token,
