@@ -10,7 +10,19 @@ from linebot.exceptions import (
     LineBotApiError, InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, QuickReplyButton, MessageAction, QuickReply, TextSendMessage, ImageSendMessage, VideoSendMessage, StickerSendMessage, AudioSendMessage, FollowEvent, FlexSendMessage, TemplateSendMessage, PostbackAction, ButtonsTemplate)
+    MessageEvent, TextMessage, QuickReplyButton, MessageAction, TextSendMessage, ImageSendMessage, VideoSendMessage, AudioSendMessage, FollowEvent, MessageEvent,
+    SourceUser, SourceGroup, SourceRoom,
+    TemplateSendMessage, ConfirmTemplate,
+    ButtonsTemplate, ImageCarouselTemplate, ImageCarouselColumn, URIAction,
+    PostbackAction, DatetimePickerAction,
+    CameraAction, CameraRollAction, LocationAction,
+    CarouselTemplate, CarouselColumn, PostbackEvent,
+    StickerMessage, StickerSendMessage, LocationMessage, LocationSendMessage,
+    ImageMessage, VideoMessage, AudioMessage, FileMessage,
+    UnfollowEvent, FollowEvent, JoinEvent, LeaveEvent, BeaconEvent,
+    FlexSendMessage, BubbleContainer, ImageComponent, BoxComponent,
+    TextComponent, SpacerComponent, IconComponent, ButtonComponent,
+    SeparatorComponent, QuickReply, QuickReplyButton)
 
 
 app = Flask(__name__)
@@ -38,7 +50,27 @@ def callback():
     return 'OK'
 
 
-@handler.add(MessageEvent, message=TextMessage)
+@handler.add(PostbackEvent)
+def make_todo(event):
+    a, b, c = "none"
+    todo_list = [a, b, c]
+
+    if event.postback.data == 'No.1':
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(
+                text="Setting No.1!")
+        )
+
+    else:
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(
+                text="Set onemoretime")
+        )
+
+
+@ handler.add(MessageEvent, message=TextMessage)
 def response_message(event):
     if event.message.text == "Todo":
         select_list = ["make", "check", "finish"]
@@ -57,7 +89,10 @@ def response_message(event):
         items = [QuickReplyButton(action=PostbackAction(
             label=f"{setting}", data=f"{setting}")) for setting in setting_list]
 
-        line_bot_api.reply_message(event.reply_token, make_todo())
+        msg2 = TextSendMessage(text="What do you want to do?",
+                               quick_reply=QuickReply(items=items))
+
+        line_bot_api.reply_message(event.reply_token, messages=msg2)
 
     elif event.message.text == "I want check Today's todo list":
         line_bot_api.reply_message(
@@ -78,15 +113,13 @@ def response_message(event):
 
 # 友だち追加イベント
 
-@handler.add(FollowEvent)
+@ handler.add(FollowEvent)
 def handle_follow(event):
     buttons_template = ButtonsTemplate(
         title='Hi！', text='Set up what you\'re going to do!!', actions=[
             PostbackAction(label='No.1', data='No.1'),
             PostbackAction(label='No.2', data='No.2'),
-            PostbackAction(label='No.3', data='No.3'),
-            PostbackAction(label='No.4', data='No.4'),
-            PostbackAction(label='No.5', data='No.5'),
+            PostbackAction(label='No.3', data='No.3')
         ])
     template_message = TemplateSendMessage(
         alt_text='Hi！\nSet up what you\'re going to do!!。', template=buttons_template)
