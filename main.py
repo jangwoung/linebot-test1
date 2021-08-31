@@ -109,17 +109,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def response_message(event):
     if event.message.text == "Todo":
-        select_list = ["make", "check", "finish"]
 
-        items = [QuickReplyButton(action=MessageAction(
-            label=f"{select}", text=f"I want {select} Today's todo list")) for select in select_list]
-
-        msg1 = TextSendMessage(text="What do you want to do?",
-                               quick_reply=QuickReply(items=items))
-
-        line_bot_api.reply_message(event.reply_token, messages=msg1)
-
-    elif event.message.text == "I want make Today's todo list":
         setting_list = ["No.1", "No.2", "No.3"]
 
         items = [QuickReplyButton(action=MessageAction(
@@ -129,6 +119,17 @@ def response_message(event):
                                quick_reply=QuickReply(items=items))
 
         line_bot_api.reply_message(event.reply_token, message=msg2)
+
+    elif event.message.text == "I want make Today's todo list":
+        select_list = ["make", "check", "finish"]
+
+        items = [QuickReplyButton(action=MessageAction(
+            label=f"{select}", text=f"I want {select} Today's todo list")) for select in select_list]
+
+        msg1 = TextSendMessage(text="What do you want to do?",
+                               quick_reply=QuickReply(items=items))
+
+        line_bot_api.reply_message(event.reply_token, messages=msg1)
 
     elif event.message.text == "I want check Today's todo list":
         line_bot_api.reply_message(
