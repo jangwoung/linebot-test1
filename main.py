@@ -11,8 +11,6 @@ from linebot.models import (
     MessageEvent, TextMessage, QuickReplyButton, MessageAction, QuickReply, TextSendMessage, ImageSendMessage, VideoSendMessage, StickerSendMessage, AudioSendMessage, FollowEvent, FlexSendMessage, TemplateSendMessage, PostbackAction, ButtonsTemplate, PostbackEvent
 )
 
-global no1, no2, no3
-no1, no2, no3 = 0
 
 app = Flask(__name__)
 
@@ -78,11 +76,13 @@ def response_message(event):
 @handler.add(PostbackEvent)
 def handle_postback(event):
 
+    global no1, no2, no3
+    no1, no2, no3 = 0
     if event.postback.data == 'No.1':
         select_list = ["study", "exercise", "reading", "sleep", "shopping"]
         items4 = [QuickReplyButton(action=MessageAction(
             label=f"{select}", text=f"Todo")) for select in select_list]
-
+        no1 = items4
         msg1 = TextSendMessage(
             text="No.1　Setting‼" + no1, quick_reply=QuickReply(items=items4))
         line_bot_api.reply_message(event.reply_token, messages=msg1)
@@ -91,7 +91,7 @@ def handle_postback(event):
         select_list = ["study", "exercise", "reading", "sleep", "shopping"]
         items5 = [QuickReplyButton(action=MessageAction(
             label=f"{select}", text=f"Todo")) for select in select_list]
-
+        no2 = items5
         msg1 = TextSendMessage(
             text="No.2　Setting‼" + no2, quick_reply=QuickReply(items=items5))
         line_bot_api.reply_message(event.reply_token, messages=msg1)
@@ -100,7 +100,7 @@ def handle_postback(event):
         select_list = ["study", "exercise", "reading", "sleep", "shopping"]
         items6 = [QuickReplyButton(action=MessageAction(
             label=f"{select}", text=f"Todo")) for select in select_list]
-
+        no3 = items6
         msg1 = TextSendMessage(
             text="No.3　Setting‼" + no3, quick_reply=QuickReply(items=items6))
         line_bot_api.reply_message(event.reply_token, messages=msg1)
