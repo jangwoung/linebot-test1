@@ -80,7 +80,7 @@ def handle_postback(event):
 
     if event.postback.data == 'No.1':
         select_list = ["study", "exercise", "reading", "sleep", "shopping"]
-        items1 = [QuickReplyButton(action=MessageAction(
+        items1 = [QuickReplyButton(action=PostbackAction(
             label=f"{select}", data="do", text=f"No.1: Let's {select} today!")) for select in select_list]
         msg1 = TextSendMessage(text="OK! Set No.1",
                                quick_reply=QuickReply(items=items1))
@@ -88,7 +88,7 @@ def handle_postback(event):
 
     elif event.postback.data == 'No.2':
         select_list = ["study", "exercise", "reading", "sleep", "shopping"]
-        items2 = [QuickReplyButton(action=MessageAction(
+        items2 = [QuickReplyButton(action=PostbackAction(
             label=f"{select}", data="do", text=f"No.2: Let's {select}! \ndo my best!")) for select in select_list]
         msg1 = TextSendMessage(text="OK! Set No.2",
                                quick_reply=QuickReply(items=items2))
@@ -96,7 +96,7 @@ def handle_postback(event):
 
     elif event.postback.data == 'No.3':
         select_list = ["study", "exercise", "reading", "sleep", "shopping"]
-        items3 = [QuickReplyButton(action=MessageAction(
+        items3 = [QuickReplyButton(action=PostbackAction(
             label=f"{select}", data="do", text=f"No.3: Let's {select} today!")) for select in select_list]
         msg1 = TextSendMessage(
             text="OK! Set No.3", quick_reply=QuickReply(items=items3))
