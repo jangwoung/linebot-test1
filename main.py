@@ -81,15 +81,15 @@ def handle_postback(event):
     if event.postback.data == 'No.1':
         select_list = ["study", "exercise", "reading", "sleep", "shopping"]
         items1 = [QuickReplyButton(action=MessageAction(
-            label=f"{select}", text=f"No.1: Let's {select} today!")) for select in select_list]
-        msg1 = TextSendMessage(text="OK! Set" + items1 + "!",
+            label=f"{select}", data="do", text=f"No.1: Let's {select} today!")) for select in select_list]
+        msg1 = TextSendMessage(text="OK! Set", text=items1,
                                quick_reply=QuickReply(items=items1))
         line_bot_api.reply_message(event.reply_token, messages=msg1)
 
     elif event.postback.data == 'No.2':
         select_list = ["study", "exercise", "reading", "sleep", "shopping"]
         items2 = [QuickReplyButton(action=MessageAction(
-            label=f"{select}", text=f"No.2: Let's {select}! do my best!")) for select in select_list]
+            label=f"{select}", data="do", text=f"No.2: Let's {select}! \ndo my best!")) for select in select_list]
         msg1 = TextSendMessage(
             text="OK!" + items2 + "!", quick_reply=QuickReply(items=items2))
         line_bot_api.reply_message(event.reply_token, messages=msg1)
@@ -97,7 +97,7 @@ def handle_postback(event):
     elif event.postback.data == 'No.3':
         select_list = ["study", "exercise", "reading", "sleep", "shopping"]
         items3 = [QuickReplyButton(action=MessageAction(
-            label=f"{select}", text=f"No.3: Let's {select} today!")) for select in select_list]
+            label=f"{select}", data="do", text=f"No.3: Let's {select} today!")) for select in select_list]
         msg1 = TextSendMessage(
             text="OK!", quick_reply=QuickReply(items=items3))
         line_bot_api.reply_message(event.reply_token, messages=msg1)
@@ -116,6 +116,11 @@ def handle_postback(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="大変よくできました！！"))
+
+    elif event.postback.data == 'do':
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="Hang in there!!"))
 
 
 if __name__ == "__main__":
