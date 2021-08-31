@@ -62,14 +62,12 @@ def response_message(event):
 
 #　終了
     elif event.message.text == "I want finish Today's todo list":
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="finish!"))
-
-    elif event.message.text == "finish!":
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(messages="大変よくできました！！"))
+        setting_list = ["cancel", "finish"]
+        items = [QuickReplyButton(action=PostbackAction(
+            label=f"{setting}", data=f"{setting}")) for setting in setting_list]
+        msg3 = TextSendMessage(text="select todo number!",
+                               quick_reply=QuickReply(items=items))
+        line_bot_api.reply_message(event.reply_token, messages=msg3)
 
     else:
         line_bot_api.reply_message(
@@ -108,6 +106,16 @@ def handle_postback(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="ㅠㅠ"))
+
+    elif event.postback.data == 'cancel':
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="OK! Let\'s Doing!!"))
+
+    elif event.postback.data == 'finish':
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="大変よくできました！！"))
 
 
 if __name__ == "__main__":
