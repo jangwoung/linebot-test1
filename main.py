@@ -83,10 +83,11 @@ def response_message(event):
 def handle_postback(event):
     if event.postback.data == 'No.1':
 
+        message = event.message.text
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(
-                text='Hi'))
+                text=message + "Setting No.1！"))
 
 
 if __name__ == "__main__":
