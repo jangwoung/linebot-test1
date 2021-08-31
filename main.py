@@ -10,6 +10,7 @@ from linebot.exceptions import (
     LineBotApiError, InvalidSignatureError
 )
 from linebot.models import (
+    AudioSendMessage,
     MessageEvent, TextMessage, MessageAction, TextSendMessage, ImageSendMessage, VideoSendMessage, AudioSendMessage,
     SourceUser, SourceGroup, SourceRoom,
     TemplateSendMessage, ConfirmTemplate,
@@ -85,7 +86,6 @@ def response_message(event):
             TextSendMessage(text="Todo"))
 
     else:
-        message = event.message.text
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="Please enter\"Todo\""))
