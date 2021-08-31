@@ -50,26 +50,6 @@ def callback():
     return 'OK'
 
 
-@handler.add(PostbackEvent)
-def make_todo(event):
-    a, b, c = "none"
-    todo_list = [a, b, c]
-
-    if event.postback.data == 'No.1':
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(
-                text="Setting No.1!")
-        )
-
-    else:
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(
-                text="Set onemoretime")
-        )
-
-
 @ handler.add(MessageEvent, message=TextMessage)
 def response_message(event):
     if event.message.text == "Todo":
