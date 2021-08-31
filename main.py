@@ -15,7 +15,13 @@ from linebot.models import (
 
 
 app = Flask(__name__)
-num = 0
+
+# 変数
+global a, b, c
+a, b, c = 0
+global no1, no2, no3
+no1, no2, no3 = "none"
+
 
 LINE_CHANNEL_ACCESS_TOKEN = os.environ["LINE_CHANNEL_ACCESS_TOKEN"]
 LINE_CHANNEL_SECRET = os.environ["LINE_CHANNEL_SECRET"]
@@ -41,8 +47,32 @@ def callback():
 
 @ handler.add(MessageEvent, message=TextMessage)
 def response_message(event):
-    if event.message.text == "Todo":
-        select_list = ["make", "check", "finish"]
+    if a == 0:
+        no1 = event.massage.text
+        setting1 = TextSendMessage(text="Set No.1 " + no1)
+        a = 1
+        line_bot_api.reply_message(event.reply_token, messages=setting1)
+
+    elif b == 0:
+        no2 = event.massage.text
+        setting2 = TextSendMessage(text="Set No.2 " + no2)
+        b = 1
+        line_bot_api.reply_message(event.reply_token, messages=setting2)
+
+    elif c == 0:
+        no3 = event.massage.text
+        setting3 = TextSendMessage(text="Set No.3 " + no3)
+        c = 1
+        line_bot_api.reply_message(event.reply_token, messages=setting3)
+
+    elif event.message.text == "Reset":
+        a, b, c = 0
+        no1, no2, no3 = "none"
+        reset_message = TextSendMessage(text="Reset!\n Set new todo!!")
+        line_bot_api.reply_message(event.reply_token, messages=reset_message)
+
+    elif event.message.text == "Todo":
+        select_list = ["check", "finish"]
 
         items = [QuickReplyButton(action=MessageAction(
             label=f"{select}", text=f"I want {select} Today's todo list")) for select in select_list]
@@ -82,12 +112,8 @@ def response_message(event):
 @handler.add(PostbackEvent)
 def handle_postback(event):
     if event.postback.data == 'No.1':
-
-        message = event.message.text
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(
-                text=message + "Setting No.1！"))
+        c1 = no1
+        line_bot_api.reply_message(event.reply_token, messages=c1)
 
 
 if __name__ == "__main__":
