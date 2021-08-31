@@ -10,9 +10,9 @@ from linebot.exceptions import (
     LineBotApiError, InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, QuickReplyButton, MessageAction, QuickReply, TextSendMessage, ImageSendMessage, VideoSendMessage, StickerSendMessage, AudioSendMessage, FollowEvent, FlexSendMessage, TemplateSendMessage, PostbackAction, ButtonsTemplate, MessageEvent, TextMessage, TextSendMessage,
+    MessageEvent, TextMessage, QuickReplyButton, MessageAction, QuickReply, TextSendMessage, ImageSendMessage, VideoSendMessage, AudioSendMessage,
     SourceUser, SourceGroup, SourceRoom,
-    TemplateSendMessage, ConfirmTemplate, MessageAction,
+    TemplateSendMessage, ConfirmTemplate,
     ButtonsTemplate, ImageCarouselTemplate, ImageCarouselColumn, URIAction,
     PostbackAction, DatetimePickerAction,
     CameraAction, CameraRollAction, LocationAction,
@@ -22,7 +22,7 @@ from linebot.models import (
     UnfollowEvent, FollowEvent, JoinEvent, LeaveEvent, BeaconEvent,
     FlexSendMessage, BubbleContainer, ImageComponent, BoxComponent,
     TextComponent, SpacerComponent, IconComponent, ButtonComponent,
-    SeparatorComponent, QuickReply, QuickReplyButton
+    SeparatorComponent
 )
 
 
