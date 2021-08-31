@@ -81,7 +81,7 @@ def handle_postback(event):
 
     if event.postback.data == 'next':
         next_list = ["No.1", "No.2", "No.3"]
-        items = [QuickReplyButton(action=PostbackAction(
+        items = [QuickReplyButton(action=MessageAction(
             label=f"{next}", text=f"Let's {next} Today!")) for next in next_list]
         msn = TextSendMessage(text="No.1",
                               quick_reply=QuickReply(items=items))
