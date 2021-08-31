@@ -11,8 +11,6 @@ from linebot.models import (
     MessageEvent, TextMessage, QuickReplyButton, MessageAction, QuickReply, TextSendMessage, ImageSendMessage, VideoSendMessage, StickerSendMessage, AudioSendMessage, FollowEvent, FlexSendMessage, TemplateSendMessage, PostbackAction, ButtonsTemplate, PostbackEvent
 )
 app = Flask(__name__)
-global no1, no2, no3
-no1, no2, no3 = "none"
 
 
 LINE_CHANNEL_ACCESS_TOKEN = os.environ["LINE_CHANNEL_ACCESS_TOKEN"]
@@ -47,7 +45,7 @@ def response_message(event):
     elif event.message.text == "I want Set Today's todo list":
         setting_list = ["No.1", "No.2", "No.3"]
         items = [QuickReplyButton(action=PostbackAction(
-            label=f"{setting}", data=f"{setting}")) for setting in setting_list]
+            label=f"{setting}", data=f"{setting}!")) for setting in setting_list]
         msg2 = TextSendMessage(text="select todo number!",
                                quick_reply=QuickReply(items=items))
         line_bot_api.reply_message(event.reply_token, messages=msg2)
@@ -75,6 +73,9 @@ def response_message(event):
 
 @handler.add(PostbackEvent)
 def handle_postback(event):
+    global no1, no2, no3
+    no1, no2, no3 = "none"
+
     if event.postback.data == 'No.1':
         select_list = ["study", "exercise", "reading", "sleep", "shopping"]
         items = [QuickReplyButton(action=MessageAction(
@@ -84,7 +85,7 @@ def handle_postback(event):
             text="No.1　Setting‼" + no1, quick_reply=QuickReply(items=items))
         line_bot_api.reply_message(event.reply_token, messages=msg1)
 
-    if event.postback.data == 'No.2':
+    elif event.postback.data == 'No.2':
         select_list = ["study", "exercise", "reading", "sleep", "shopping"]
         items = [QuickReplyButton(action=MessageAction(
             label=f"{select}", text=f"Todo")) for select in select_list]
@@ -93,7 +94,7 @@ def handle_postback(event):
             text="No.2　Setting‼" + no2, quick_reply=QuickReply(items=items))
         line_bot_api.reply_message(event.reply_token, messages=msg1)
 
-    if event.postback.data == 'No.3':
+    elif event.postback.data == 'No.3':
         select_list = ["study", "exercise", "reading", "sleep", "shopping"]
         items = [QuickReplyButton(action=MessageAction(
             label=f"{select}", text=f"Todo")) for select in select_list]
