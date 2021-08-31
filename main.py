@@ -79,21 +79,21 @@ def response_message(event):
 def handle_postback(event):
     if event.postback.data == 'No.1':
         select_list = ["study", "exercise", "reading", "sleep", "shopping"]
-        items = [QuickReplyButton(action=PostbackAction(
+        items = [QuickReplyButton(action=MessageAction(
             label=f"{select}", text=f"Setting!")) for select in select_list]
         msg1 = TextSendMessage(text="OK!", quick_reply=QuickReply(items=items))
         line_bot_api.reply_message(event.reply_token, messages=msg1)
 
     if event.postback.data == 'No.2':
         select_list = ["study", "exercise", "reading", "sleep", "shopping"]
-        items = [QuickReplyButton(action=PostbackAction(
+        items = [QuickReplyButton(action=MessageAction(
             label=f"{select}", text=f"Setting!")) for select in select_list]
         msg1 = TextSendMessage(text="OK!", quick_reply=QuickReply(items=items))
         line_bot_api.reply_message(event.reply_token, messages=msg1)
 
     if event.postback.data == 'No.3':
         select_list = ["study", "exercise", "reading", "sleep", "shopping"]
-        items = [QuickReplyButton(action=PostbackAction(
+        items = [QuickReplyButton(action=MessageAction(
             label=f"{select}", text=f"Setting!")) for select in select_list]
         msg1 = TextSendMessage(text="OK!", quick_reply=QuickReply(items=items))
         line_bot_api.reply_message(event.reply_token, messages=msg1)
