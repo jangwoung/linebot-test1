@@ -39,7 +39,9 @@ def response_message(event):
         msg1 = TextSendMessage(text="What do you want to do?",
                                quick_reply=QuickReply(items=items))
         line_bot_api.reply_message(event.reply_token, messages=msg1)
-    elif event.message.text == "I want set Today's todo list":
+
+# 選択
+    elif event.message.text == "I want Set Today's todo list":
         setting_list = ["No.1", "No.2", "No.3"]
         items = [QuickReplyButton(action=PostbackAction(
             label=f"{setting}", data=f"{setting}")) for setting in setting_list]
@@ -47,10 +49,16 @@ def response_message(event):
                                quick_reply=QuickReply(items=items))
         line_bot_api.reply_message(event.reply_token, messages=msg2)
 
+#　確認
     elif event.message.text == "I want check Today's todo list":
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="Todo"))
+        setting_list = ["No.1", "No.2", "No.3"]
+        items = [QuickReplyButton(action=PostbackAction(
+            label=f"{setting}", data=f"{setting}")) for setting in setting_list]
+        msg2 = TextSendMessage(text="select todo number!",
+                               quick_reply=QuickReply(items=items))
+        line_bot_api.reply_message(event.reply_token, messages=msg2)
+
+#　終了
     elif event.message.text == "I want finish Today's todo list":
         line_bot_api.reply_message(
             event.reply_token,
