@@ -65,7 +65,7 @@ def response_message(event):
         setting_list = ["cancel", "finish"]
         items = [QuickReplyButton(action=PostbackAction(
             label=f"{setting}", data=f"{setting}")) for setting in setting_list]
-        msg3 = TextSendMessage(text="select todo number!",
+        msg3 = TextSendMessage(text="Are you sure you want to finish it?",
                                quick_reply=QuickReply(items=items))
         line_bot_api.reply_message(event.reply_token, messages=msg3)
 
@@ -81,7 +81,7 @@ def handle_postback(event):
     if event.postback.data == 'No.1':
         select_list = ["study", "exercise", "reading", "sleep", "shopping"]
         items1 = [QuickReplyButton(action=MessageAction(
-            label=f"{select}", text=f"Todo")) for select in select_list]
+            label=f"{select}", text=f"\"No.1\: \"Let's {select} today!")) for select in select_list]
         msg1 = TextSendMessage(
             text="OK!", quick_reply=QuickReply(items=items1))
         line_bot_api.reply_message(event.reply_token, messages=msg1)
@@ -89,7 +89,7 @@ def handle_postback(event):
     elif event.postback.data == 'No.2':
         select_list = ["study", "exercise", "reading", "sleep", "shopping"]
         items2 = [QuickReplyButton(action=MessageAction(
-            label=f"{select}", text=f"Todo")) for select in select_list]
+            label=f"{select}", text=f"\"No.2\: \"Let's {select} today!")) for select in select_list]
         msg1 = TextSendMessage(
             text="OK!", quick_reply=QuickReply(items=items2))
         line_bot_api.reply_message(event.reply_token, messages=msg1)
@@ -97,7 +97,7 @@ def handle_postback(event):
     elif event.postback.data == 'No.3':
         select_list = ["study", "exercise", "reading", "sleep", "shopping"]
         items3 = [QuickReplyButton(action=MessageAction(
-            label=f"{select}", text=f"Todo")) for select in select_list]
+            label=f"{select}", text=f"\"No.3\: \"Let's {select} today!")) for select in select_list]
         msg1 = TextSendMessage(
             text="OK!", quick_reply=QuickReply(items=items3))
         line_bot_api.reply_message(event.reply_token, messages=msg1)
@@ -110,7 +110,7 @@ def handle_postback(event):
     elif event.postback.data == 'cancel':
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text="OK! Let\'s Doing!!"))
+            TextSendMessage(text="OK! Keep doing!!"))
 
     elif event.postback.data == 'finish':
         line_bot_api.reply_message(
