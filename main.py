@@ -54,7 +54,7 @@ def response_message(event):
 #　確認
     elif event.message.text == "I want check Today's todo list":
         items = [QuickReplyButton(action=PostbackAction(
-            label="check", data="check.."))
+            label="check..", data="check"))
         ]
         msg2 = TextSendMessage(text="to tell the truth...",
                                quick_reply=QuickReply(items=items))
