@@ -57,7 +57,7 @@ def response_message(event):
         items = [QuickReplyButton(action=PostbackAction(
             label=f"{setting}", data=f"{setting}")) for setting in setting_list]
 
-        msg2 = TextSendMessage(text="What do you want to do?",
+        msg2 = TextSendMessage(text="select todo number!",
                                quick_reply=QuickReply(items=items))
 
         line_bot_api.reply_message(event.reply_token, messages=msg2)
