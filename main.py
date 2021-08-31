@@ -48,7 +48,7 @@ def response_message(event):
 # 選択
     elif event.message.text == "I want Set Today's todo list":
         setting_list = ["No.1", "No.2", "No.3"]
-        items2 = [QuickReplyButton(action=PostbackAction(
+        items2 = [QuickReplyButton(action=MessageAction(
             label=f"{setting}", data=f"{setting}")) for setting in setting_list]
         msg2 = TextSendMessage(text="select todo number!",
                                quick_reply=QuickReply(items=items2))
@@ -57,7 +57,7 @@ def response_message(event):
 #　確認
     elif event.message.text == "I want check Today's todo list":
         setting_list = ["No.1", "No.2", "No.3"]
-        items3 = [QuickReplyButton(action=PostbackAction(
+        items3 = [QuickReplyButton(action=MessageAction(
             label=f"{setting}", data=f"{setting}")) for setting in setting_list]
         msg2 = TextSendMessage(text="select todo number!",
                                quick_reply=QuickReply(items=items3))
