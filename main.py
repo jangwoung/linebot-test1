@@ -10,7 +10,7 @@ from linebot.exceptions import (
     LineBotApiError, InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, QuickReplyButton, MessageAction, TextSendMessage, ImageSendMessage, VideoSendMessage, AudioSendMessage, FollowEvent, MessageEvent,
+    MessageEvent, TextMessage, MessageAction, TextSendMessage, ImageSendMessage, VideoSendMessage, AudioSendMessage,
     SourceUser, SourceGroup, SourceRoom,
     TemplateSendMessage, ConfirmTemplate,
     ButtonsTemplate, ImageCarouselTemplate, ImageCarouselColumn, URIAction,
@@ -89,21 +89,6 @@ def response_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="Please enter\"Todo\""))
-
-
-# 友だち追加イベント
-
-@ handler.add(FollowEvent)
-def handle_follow(event):
-    buttons_template = ButtonsTemplate(
-        title='Hi！', text='Set up what you\'re going to do!!', actions=[
-            PostbackAction(label='No.1', data='No.1'),
-            PostbackAction(label='No.2', data='No.2'),
-            PostbackAction(label='No.3', data='No.3')
-        ])
-    template_message = TemplateSendMessage(
-        alt_text='Hi！\nSet up what you\'re going to do!!。', template=buttons_template)
-    line_bot_api.reply_message(event.reply_token, template_message)
 
 
 if __name__ == "__main__":
