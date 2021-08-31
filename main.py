@@ -40,7 +40,6 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def response_message(event):
-
     if event.message.text == "Todo":
         select_list = ["make", "check", "finish"]
 
@@ -55,13 +54,10 @@ def response_message(event):
     elif event.message.text == "I want make Today's todo list":
         setting_list = ["No.1", "No.2", "No.3"]
 
-        items = [QuickReplyButton(action=MessageAction(
-            label=f"{setting}", text=f"Setting {setting}!")) for setting in setting_list]
+        items = [QuickReplyButton(action=PostbackAction(
+            label=f"{setting}", data=f"{setting}")) for setting in setting_list]
 
-        msg2 = TextSendMessage(text="What do you want to do?",
-                               quick_reply=QuickReply(items=items))
-
-        line_bot_api.reply_message(event.reply_token, messages=msg2)
+        line_bot_api.reply_message(event.reply_token, make_todo())
 
     elif event.message.text == "I want check Today's todo list":
         line_bot_api.reply_message(
@@ -78,6 +74,23 @@ def response_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="Please enter\"Todo\""))
+
+
+# 友だち追加イベント
+
+@handler.add(FollowEvent)
+def handle_follow(event):
+    buttons_template = ButtonsTemplate(
+        title='Hi！', text='Set up what you\'re going to do!!', actions=[
+            PostbackAction(label='No.1', data='No.1'),
+            PostbackAction(label='No.2', data='No.2'),
+            PostbackAction(label='No.3', data='No.3'),
+            PostbackAction(label='No.4', data='No.4'),
+            PostbackAction(label='No.5', data='No.5'),
+        ])
+    template_message = TemplateSendMessage(
+        alt_text='Hi！\nSet up what you\'re going to do!!。', template=buttons_template)
+    line_bot_api.reply_message(event.reply_token, template_message)
 
 
 if __name__ == "__main__":
