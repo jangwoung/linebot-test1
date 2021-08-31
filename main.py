@@ -45,7 +45,7 @@ def response_message(event):
     elif event.message.text == "I want Set Today's todo list":
         setting_list = ["No.1", "No.2", "No.3"]
         items = [QuickReplyButton(action=PostbackAction(
-            label=f"{setting}", data=f"{setting}!")) for setting in setting_list]
+            label=f"{setting}", data=f"{setting}")) for setting in setting_list]
         msg2 = TextSendMessage(text="select todo number!",
                                quick_reply=QuickReply(items=items))
         line_bot_api.reply_message(event.reply_token, messages=msg2)
@@ -54,7 +54,7 @@ def response_message(event):
     elif event.message.text == "I want check Today's todo list":
         setting_list = ["No.1", "No.2", "No.3"]
         items = [QuickReplyButton(action=PostbackAction(
-            label=f"{setting}", data=f"{setting}")) for setting in setting_list]
+            label=f"{setting}", data=f"{setting}!")) for setting in setting_list]
         msg2 = TextSendMessage(text="select todo number!",
                                quick_reply=QuickReply(items=items))
         line_bot_api.reply_message(event.reply_token, messages=msg2)
