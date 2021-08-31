@@ -45,7 +45,7 @@ def response_message(event):
         setting_list = ["No.1", "No.2", "No.3"]
         items = [QuickReplyButton(action=PostbackAction(
             label=f"{setting}", data=f"{setting}")) for setting in setting_list]
-        msg2 = TextSendMessage(text="select!",
+        msg2 = TextSendMessage(text="select todo number!",
                                quick_reply=QuickReply(items=items))
         line_bot_api.reply_message(event.reply_token, messages=msg2)
 
@@ -63,8 +63,6 @@ def response_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="Todo"))
-
-#　もう一度
     else:
         line_bot_api.reply_message(
             event.reply_token,
@@ -77,8 +75,9 @@ def handle_postback(event):
         select_list = ["study", "exercise", "reading", "sleep", "shopping"]
         items = [QuickReplyButton(action=MessageAction(
             label=f"{select}", text=f"Let's {select} Today!")) for select in select_list]
-        ms1 = TextSendMessage(quick_reply=QuickReply(items=items))
-        line_bot_api.reply_message(event.reply_token, messages=ms1)
+        msg1 = TextSendMessage(text="{select}",
+                               quick_reply=QuickReply(items=items))
+        line_bot_api.reply_message(event.reply_token, messages=msg1)
 
 
 if __name__ == "__main__":
