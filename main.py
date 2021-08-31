@@ -73,8 +73,12 @@ def response_message(event):
 
 @handler.add(PostbackEvent)
 def handle_postback(event):
-    global no1, no2, no3
-    no1, no2, no3 = "none"
+    global no1
+    global no2
+    global no3
+    no1 = "none"
+    no2 = "none"
+    no3 = "none"
 
     if event.postback.data == 'No.1':
         select_list = ["study", "exercise", "reading", "sleep", "shopping"]
