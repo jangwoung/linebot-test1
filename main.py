@@ -10,7 +10,8 @@ from linebot.exceptions import (
     LineBotApiError, InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, QuickReplyButton, MessageAction, QuickReply, TextSendMessage, ImageSendMessage, VideoSendMessage, StickerSendMessage, AudioSendMessage, FollowEvent, FlexSendMessage, TemplateSendMessage, PostbackAction, ButtonsTemplate)
+    MessageEvent, TextMessage, QuickReplyButton, MessageAction, QuickReply, TextSendMessage, ImageSendMessage, VideoSendMessage, StickerSendMessage, AudioSendMessage, FollowEvent, FlexSendMessage, TemplateSendMessage, PostbackAction, ButtonsTemplate,
+)
 
 
 app = Flask(__name__)
@@ -55,7 +56,7 @@ def response_message(event):
         setting_list = ["No.1", "No.2", "No.3"]
 
         items = [QuickReplyButton(action=PostbackAction(
-            label=f"{setting}", data=f"{setting}")) for setting in setting_list]
+            label=f"{setting}", data=f"{setting}", text=f"{setting}")) for setting in setting_list]
 
         msg2 = TextSendMessage(text="select todo number!",
                                quick_reply=QuickReply(items=items))
