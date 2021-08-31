@@ -12,8 +12,7 @@ from linebot.models import (
 )
 app = Flask(__name__)
 
-global items1, items2, items3
-items1, items2, items3 = "none"
+
 num = 0
 LINE_CHANNEL_ACCESS_TOKEN = os.environ["LINE_CHANNEL_ACCESS_TOKEN"]
 LINE_CHANNEL_SECRET = os.environ["LINE_CHANNEL_SECRET"]
@@ -81,12 +80,15 @@ def response_message(event):
 @handler.add(PostbackEvent)
 def handle_postback(event):
 
+    global items1, items2, items3
+    items1, items2, items3 = "none"
+
     if event.postback.data == 'No.1':
         select_list = ["study", "exercise", "reading", "sleep", "shopping"]
         items1 = [QuickReplyButton(action=MessageAction(
             label=f"{select}", text=f"Todo")) for select in select_list]
         msg1 = TextSendMessage(
-            text="OK!" + no1, quick_reply=QuickReply(items=items1))
+            text="OK!", quick_reply=QuickReply(items=items1))
         line_bot_api.reply_message(event.reply_token, messages=msg1)
 
     elif event.postback.data == 'No.2':
