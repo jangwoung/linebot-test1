@@ -35,28 +35,28 @@ def callback():
 def response_message(event):
     if event.message.text == "Todo":
         select_list = ["Set", "check", "finish"]
-        items = [QuickReplyButton(action=MessageAction(
+        items1 = [QuickReplyButton(action=MessageAction(
             label=f"{select}", text=f"I want {select} Today's todo list")) for select in select_list]
         msg1 = TextSendMessage(text="What do you want to do?",
-                               quick_reply=QuickReply(items=items))
+                               quick_reply=QuickReply(items=items1))
         line_bot_api.reply_message(event.reply_token, messages=msg1)
 
 # 選択
     elif event.message.text == "I want Set Today's todo list":
         setting_list = ["No.1", "No.2", "No.3"]
-        items = [QuickReplyButton(action=PostbackAction(
+        items2 = [QuickReplyButton(action=PostbackAction(
             label=f"{setting}", data=f"{setting}")) for setting in setting_list]
         msg2 = TextSendMessage(text="select todo number!",
-                               quick_reply=QuickReply(items=items))
+                               quick_reply=QuickReply(items=items2))
         line_bot_api.reply_message(event.reply_token, messages=msg2)
 
 #　確認
     elif event.message.text == "I want check Today's todo list":
         setting_list = ["No.1", "No.2", "No.3"]
-        items = [QuickReplyButton(action=PostbackAction(
+        items3 = [QuickReplyButton(action=PostbackAction(
             label=f"{setting}", data=f"{setting}!")) for setting in setting_list]
         msg2 = TextSendMessage(text="select todo number!",
-                               quick_reply=QuickReply(items=items))
+                               quick_reply=QuickReply(items=items3))
         line_bot_api.reply_message(event.reply_token, messages=msg2)
 
 #　終了
@@ -78,29 +78,29 @@ def handle_postback(event):
 
     if event.postback.data == 'No.1':
         select_list = ["study", "exercise", "reading", "sleep", "shopping"]
-        items = [QuickReplyButton(action=MessageAction(
+        items4 = [QuickReplyButton(action=MessageAction(
             label=f"{select}", text=f"Todo")) for select in select_list]
-        no1 = items
+        no1 = items4
         msg1 = TextSendMessage(
-            text="No.1　Setting‼" + no1, quick_reply=QuickReply(items=items))
+            text="No.1　Setting‼" + no1, quick_reply=QuickReply(items=items4))
         line_bot_api.reply_message(event.reply_token, messages=msg1)
 
     elif event.postback.data == 'No.2':
         select_list = ["study", "exercise", "reading", "sleep", "shopping"]
-        items = [QuickReplyButton(action=MessageAction(
+        items5 = [QuickReplyButton(action=MessageAction(
             label=f"{select}", text=f"Todo")) for select in select_list]
-        no2 = items
+        no2 = items5
         msg1 = TextSendMessage(
-            text="No.2　Setting‼" + no2, quick_reply=QuickReply(items=items))
+            text="No.2　Setting‼" + no2, quick_reply=QuickReply(items=items5))
         line_bot_api.reply_message(event.reply_token, messages=msg1)
 
     elif event.postback.data == 'No.3':
         select_list = ["study", "exercise", "reading", "sleep", "shopping"]
-        items = [QuickReplyButton(action=MessageAction(
+        items6 = [QuickReplyButton(action=MessageAction(
             label=f"{select}", text=f"Todo")) for select in select_list]
-        no3 = items
+        no3 = items6
         msg1 = TextSendMessage(
-            text="No.3　Setting‼" + no3, quick_reply=QuickReply(items=items))
+            text="No.3　Setting‼" + no3, quick_reply=QuickReply(items=items6))
         line_bot_api.reply_message(event.reply_token, messages=msg1)
 
 
